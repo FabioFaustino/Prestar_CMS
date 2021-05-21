@@ -1,0 +1,62 @@
+﻿@model Prestar.Models.Gamification
+
+@{
+    ViewData["Title"] = "Ativar Configuração";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Gamification.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted mt-0" id="title-details">Ativar Configuração</h4>
+</div>
+
+<div>
+    <div class="alert alert-light text-center" role="alert">
+        <h3>Tem a certeza que pretende ativar esta configuração?</h3>
+        <hr />
+        <h5>Se ativar, esta configuração, a que estiver no momento ativa, será automaticamente desativada</h5>
+        <hr />
+        <dl class="col">
+            <dt>
+                @Html.DisplayNameFor(model => model.GamificationName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.GamificationName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PointsPerComment)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PointsPerComment)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PointsPerEvaluation)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PointsPerEvaluation)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PointsPerService)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PointsPerService)
+            </dd>
+        </dl>
+
+        <form asp-action="ActivateConfirmed" asp-route-id="@Model.GamificationID" id="gamification-options">
+            <input type="hidden" asp-for="GamificationID" value="@Model.GamificationID" />
+            <input type="hidden" asp-for="GamificationName" value="@Model.GamificationName" />
+            <input type="hidden" asp-for="PointsPerComment" value="@Model.PointsPerComment" />
+            <input type="hidden" asp-for="PointsPerEvaluation" value="@Model.PointsPerEvaluation" />
+            <input type="hidden" asp-for="PointsPerService" value="@Model.PointsPerService" />
+            <input type="hidden" asp-for="IsActive" value="true" />
+            <input type="submit" value="Ativar" class="btn btn-normal" />
+        </form>
+    </div>
+    <div class="text-center" id="gamification-options">
+        <a asp-action="Configurations" class="btn btn-normal">Voltar Atrás</a>
+    </div>
+</div>

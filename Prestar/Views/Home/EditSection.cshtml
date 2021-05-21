@@ -1,0 +1,40 @@
+﻿@model Prestar.Models.PrivacyPolicySection
+
+@{
+    ViewData["Title"] = "Editar Secção";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Norm_Manual.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted" style="font-size:2.6em;">Editar Secção @Model.Title</h4>
+</div>
+
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-8">
+        <form asp-action="EditSection">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PrivacyPolicySectionID" />
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control" style="white-space: pre-wrap;" rows="25"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" id="btn-privacy">
+                <button type="submit" class="btn btn-normal">Guardar Alterações</button>
+                <button class="btn btn-normal" asp-controller="Home" asp-action="Privacy">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+﻿@model Prestar.Models.Service
+
+@{
+    ViewData["Title"] = "Editar Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-0 text-muted">Editar Serviço @Model.ServiceName</h4>
+</div>
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-8">
+        <form asp-action="Edit" enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="ServiceID" />
+            <input type="hidden" asp-for="CreationDate" />
+            <input type="hidden" asp-for="ServiceImages" />
+
+            <div class="form-group">
+                <label asp-for="ServiceName" class="control-label"></label>
+                <input asp-for="ServiceName" class="form-control" />
+                <span asp-validation-for="ServiceName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ServiceCategoryID" class="control-label"></label>
+                <select asp-for="ServiceCategoryID" class="form-control form-control">
+                    <optgroup label="Selecionada">
+                        <option value="@Model.ServiceCategoryID">@Model.ServiceCategory.Name</option>
+                    </optgroup>
+                    @foreach (ServiceCategory category in ViewBag.ServiceCategories)
+                    {
+                        @if (!category.IsSubcategory && category.CategoryID != @Model.ServiceCategoryID)
+                        {
+                            <optgroup label="@category.Name">
+                                @if (category.ServiceCategories == null || category.ServiceCategories.Count == 0)
+                                {
+                                    <option value="@category.CategoryID">@category.Name</option>
+                                }
+                                else
+                                {
+                                    @foreach (ServiceCategory subcategory in category.ServiceCategories)
+                                    {
+                                        @if (subcategory.CategoryID != @Model.ServiceCategoryID)
+                                        {
+                                            <option value="@subcategory.CategoryID">@subcategory.Name</option>
+                                        }
+                                    }
+                                }
+                            </optgroup>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="ServiceCategoryID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea cols="5" rows="6" asp-for="Description" class="form-control" style="white-space: pre-wrap;"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Illustration" style="width: 100%;"></label>
+                @if (Model.Illustration != null)
+                {
+                    <img id="Illustration" style="width:300px;height:300px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Illustration))">
+                }
+                else
+                {
+                    <img id="Illustration" style="width:300px;height:300px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                }
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="Illustration"
+                       class="form-control"
+                       style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;background-color:#f3f3f5;"
+                       onchange="document.getElementById('Illustration').src = window.URL.createObjectURL(this.files[0])" />
+                <span asp-validation-for="Illustration" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group text-center">
+                <input type="submit" value="Guardar Alterações" class="btn btn-normal mt-3" id="btn-service" />
+                <a class="btn btn-normal mt-3" id="btn-service" asp-action="UserServices">Os Meus Serviços</a>
+               
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

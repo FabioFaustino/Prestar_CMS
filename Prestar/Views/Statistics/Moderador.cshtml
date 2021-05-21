@@ -1,0 +1,554 @@
+﻿
+@{
+    ViewData["Title"] = "Estatisticas - Moderador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> averageEvaluationEachProvider_User = ViewBag.AverageEvaluationEachProvider_User;
+    List<double> averageEvaluationEachProvider_Avg = ViewBag.AverageEvaluationEachProvider_Avg;
+    int numberOfProviders = ViewBag.NumberOfProviders;
+
+    List<string> listofProvidersWithTime = ViewBag.ListofProvidersWithTime;
+    string typeTime = ViewBag.TypeTime;
+    string typeDuration = ViewBag.TypeDuration;
+    string typeView = ViewBag.View;
+
+    int[] numberOfClientsServiceConclued = ViewBag.NumberOfClientsServiceConclued;
+    int[] numberOfClientsServiceRejected = ViewBag.NumberOfClientsServiceRejected;
+    int[] numberOfClientsServiceCancelled = ViewBag.NumberOfClientsServiceCancelled;
+    int[] usersWithoutActivity = ViewBag.NumberOfUsersWithoutActivity;
+
+    int[] numberOfComplaints = ViewBag.NumberOfComplaints;
+    int totalNumberOfComplaints = ViewBag.TotalNumberOfComplaints;
+
+    int numberUsers = ViewBag.NumberUsers;
+
+    int numberServiceRequisition = ViewBag.NumberServiceRequisition;
+    List<int> numberOfRequisitions = ViewBag.NumberOfRequisitions;
+    List<int> numberOfRequisitionsCompleted = ViewBag.NumberOfRequisitionsCompleted;
+
+    double averageAge = ViewBag.AverageAge;
+    double averageEnrolls = ViewBag.AverageEnrolls;
+    double[] ages = ViewBag.Ages;
+    List<string> newestEnrolls_title = ViewBag.NewestEnrolls_Title;
+    List<int> newestEnrolls_number = ViewBag.NewestEnrolls_Number;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Statistics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        window.addEventListener("load", function (event) {
+            //Sem Atividade
+            const data = {
+                labels: [
+                    'Há 100 Dias',
+                    'Há 50 Dias',
+                    'Há 30 Dias',
+                    'Há 15 Dias',
+                    'Há 7 Dias',
+                    'Há 3 Dias',
+                ],
+                datasets: [{
+                    label: 'Utilizadores Sem Atividade',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [@usersWithoutActivity.ElementAt(5), @usersWithoutActivity.ElementAt(4), @usersWithoutActivity.ElementAt(3),
+                    @usersWithoutActivity.ElementAt(2), @usersWithoutActivity.ElementAt(1), @usersWithoutActivity.ElementAt(0)],
+                }]
+            };
+            const config = {
+                type: 'line',
+                data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var lineChart = new Chart(
+                document.getElementById('lineChart'),
+                config
+            );
+            //Denuncias
+            const dataComplaint = {
+                labels: [
+                    'Denúncia a Cliente',
+                    'Denúncia a Serviço',
+                    'Denúncia a Prestador de Serviço'
+                ],
+                datasets: [{
+                    label: 'Total de Denúncias',
+                    data: [@numberOfComplaints.ElementAt(0), @numberOfComplaints.ElementAt(1), @numberOfComplaints.ElementAt(2)],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            const configComplaint = {
+                type: 'doughnut',
+                data: dataComplaint,
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var donutChart = new Chart(
+                document.getElementById('donutChart'),
+                configComplaint
+            );
+
+            //Inscrições
+                    try {
+                        const dataBar = {
+                labels: [" ", " ", " ", " ", " "],
+                datasets: [{
+                    label: 'Inscrições',
+                    data: [@newestEnrolls_number[0], @newestEnrolls_number[1], @newestEnrolls_number[2], @newestEnrolls_number[3], @newestEnrolls_number[4]],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(255, 159, 64, 0.5)',
+                        'rgba(255, 205, 86, 0.5)',
+                        'rgba(255, 205, 86, 0.5)',
+                        'rgba(255, 205, 86, 0.5)',
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                    ],
+                    borderWidth: 1
+                }]
+            };
+                    const configBar = {
+                type: 'bar',
+                data: dataBar,
+                options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                    plugins: {
+                            legend: {
+                                labels: {
+                                    font: {
+                                        size: 15
+                                    }
+                                }
+                            }
+                        }
+                    },
+            };
+                var barChart = new Chart(
+                    document.getElementById('barChart'),
+                    configBar
+                );
+            } catch (e) { }
+            //Idade
+            try {
+                const dataAge = {
+                    labels: [
+                        'Utilizadores',
+                        'Prestadores',
+                        'Clientes',
+                    ],
+                    datasets: [{
+                        label: 'Média de Idade',
+                        data: [@averageAge, @ages.ElementAt(1), @ages.ElementAt(0)],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(255, 159, 64, 0.5)',
+                            'rgba(255, 205, 86, 0.5)',
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+                const configAge = {
+                    type: 'bar',
+                    data: dataAge,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    font: {
+                                        size: 15
+                                    }
+                                }
+                            }
+                        }
+                    },
+                };
+                var ageChart = new Chart(
+                    document.getElementById('ageChart'),
+                    configAge
+                );
+            } catch (e) { }
+            //Requisições
+            const dataRequisitions = {
+                labels: [
+                    'Há 4 Semanas',
+                    'Há 3 Semanas',
+                    'Há 2 Semanas',
+                    'Há 1 Semana',
+                ],
+                datasets: [{
+                    type: 'line',
+                    label: 'Requisições',
+                    backgroundColor:'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [@numberOfRequisitions.ElementAt(3), @numberOfRequisitions.ElementAt(2), @numberOfRequisitions.ElementAt(1),
+                    @numberOfRequisitions.ElementAt(0)],
+                }, {
+                    type: 'line',
+                    label: 'Requisições Completas',
+                    backgroundColor: 'rgb(102, 204, 0)',
+                    borderColor: 'rgb(102, 204, 0)',
+                    data: [@numberOfRequisitionsCompleted.ElementAt(3), @numberOfRequisitionsCompleted.ElementAt(2), @numberOfRequisitionsCompleted.ElementAt(1),
+                    @numberOfRequisitionsCompleted.ElementAt(0)],
+                }]
+            };
+            const configRequisitions = {
+                type: 'scatter',
+                data: dataRequisitions,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    size: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var requisitionsChart = new Chart(
+                document.getElementById('requisitionsChart'),
+                configRequisitions
+            );
+            //ConcluedServices & RejectServices & CanceledServices
+            const dataClientes = {
+                labels: [
+                    'Há 4 Semanas',
+                    'Há 1 Semana',
+                    'Há 3 Dias',
+                    'Há 1 Dia',
+                ],
+                datasets: [{
+                    type: 'line',
+                    label: 'Clientes com Requisições Concluidas',
+                    backgroundColor: 'rgb(102, 204, 0)',
+                    borderColor: 'rgb(102, 204, 0)',
+                    data: [@numberOfClientsServiceConclued.ElementAt(3), @numberOfClientsServiceConclued.ElementAt(2), @numberOfClientsServiceConclued.ElementAt(1),
+                    @numberOfClientsServiceConclued.ElementAt(0)],
+                }, {
+                    type: 'line',
+                    label: 'Clientes com Requisições Canceladas',
+                    backgroundColor:'rgb(204, 0, 0)',
+                    borderColor: 'rgb(204, 0, 0)',
+                    data: [@numberOfClientsServiceCancelled.ElementAt(3), @numberOfClientsServiceCancelled.ElementAt(2), @numberOfClientsServiceCancelled.ElementAt(1),
+                    @numberOfClientsServiceCancelled.ElementAt(0)],
+                }, {
+                    type: 'line',
+                    label: 'Clientes com Requisições Rejeitadas',
+                    backgroundColor: 'rgb(54, 162, 235)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    data: [@numberOfClientsServiceRejected.ElementAt(3), @numberOfClientsServiceRejected.ElementAt(2), @numberOfClientsServiceRejected.ElementAt(1),
+                    @numberOfClientsServiceRejected.ElementAt(0)],
+                    }]
+            };
+            const configClientes = {
+                type: 'scatter',
+                data: dataClientes,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                }
+            };
+            var clientsChart = new Chart(
+                document.getElementById('clientsChart'),
+                configClientes
+            );
+        });
+    </script>
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Estatísticas</h4>
+</div>
+
+<div>
+    <div class="alert alert-light text-uppercase mb-5" role="alert" style="background-color:#9fafc1; color:white!important; border-color:#9fafc1">
+        <h4 class="mb-0">Gerais</h4>
+    </div>
+    <div id="cards">
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Número de Utilizadores Sem Atividade</h5>
+            <hr class="text-dark" />
+            @if (numberUsers == 0)
+            {
+                <p>Não temos ainda dados suficientes</p>
+            }
+            else
+            {
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            }
+        </div>
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Média de Idades dos Utilizadores da Plataforma</h5>
+            <hr />
+            <br />
+            @if (numberUsers > 0)
+            {
+                <div class="chart-container">
+                    <canvas id="ageChart"></canvas>
+                </div>
+            }
+            else
+            {
+                <p>Não temos ainda resultados</p>
+            }
+        </div>
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Lista de Prestadores Ativos</h5>
+            <hr />
+            <form asp-action="Moderador" class="row align-items-center justify-content-center text-center mb-3">
+                <select name="time" id="time">
+                    @if (typeTime.Equals("1_Hora"))
+                    {
+                        <option value="1_Hora" selected>Há 1 Hora</option>
+                    }
+                    else
+                    {
+                        <option value="1_Hora">Há 1 Hora</option>
+                    }
+                    @if (typeTime.Equals("1_Dia"))
+                    {
+                        <option value="1_Dia" selected>Há 1 Dia</option>
+                    }
+                    else
+                    {
+                        <option value="1_Dia">Há 1 Dia</option>
+                    }
+                    @if (typeTime.Equals("3_Dias"))
+                    {
+                        <option value="3_Dias" selected>Há 3 Dias</option>
+                    }
+                    else
+                    {
+                        <option value="3_Dias">Há 3 Dias</option>
+                    }
+                    @if (typeTime.Equals("1_Semana"))
+                    {
+                        <option value="1_Semana" selected>Há 1 Semana</option>
+                    }
+                    else
+                    {
+                        <option value="1_Semana">Há 1 Semana</option>
+                    }
+                    @if (typeTime.Equals("4_Semanas"))
+                    {
+                        <option value="4_Semanas" selected>Há 4 Semanas</option>
+                    }
+                    else
+                    {
+                        <option value="4_Semanas">Há 4 Semanas</option>
+                    }
+                </select>
+                <div class="form-group ml-3 mb-0">
+                    <input type="submit" value="Filtrar" class="btn btn-normal" />
+                </div>
+            </form>
+            @if (numberOfProviders > 0)
+            {
+                @if (listofProvidersWithTime.Count() > 0)
+                {
+                    <div class="col justify-content-center align-items-center">
+                        <p><b>Nome</b></p>
+                        @foreach (string name in listofProvidersWithTime)
+                        {
+                            <p class="mb-1">@name</p>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p>Não existem resultados</p>
+                }
+            }
+            else
+            {
+                <p>Ainda não existem dados suficientes</p>
+            }
+        </div>
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Total de Denúncias</h5>
+            <hr />
+            @if (totalNumberOfComplaints <= 0)
+            {
+                <p>Não temos ainda dados suficientes</p>
+            }
+            else
+            {
+                <div class="chart-container">
+                    <canvas id="donutChart"></canvas>
+                </div>
+            }
+        </div>
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Inscrições em Ações de Formação</h5>
+            <hr />
+            <div class="col">
+                <h6>Média de Inscrições</h6>
+                <h2>@averageEnrolls</h2>
+                <small>Inscrições</small>
+            </div>
+            <hr />
+            <br />
+            @if (averageEnrolls != 0.0)
+            {
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            }
+            else
+            {
+                <p>Não temos ainda dados suficientes</p>
+            }
+        </div>
+    </div>
+</div>
+<div class="mt-4">
+    <div class="alert alert-light text-uppercase mb-5" role="alert" style="background-color:#9fafc1; color:white!important; border-color:#9fafc1">
+        <h4 class="mb-0">Relacionadas com os Serviços e a sua Prestação</h4>
+    </div>
+    <div id="cards">
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Registo de Atividade</h5>
+            <hr />
+            <br />
+            @if (numberServiceRequisition <= 0)
+            {
+                <p>Não temos ainda dados suficientes</p>
+            }
+            else
+            {
+                <div class="chart-container">
+                    <canvas id="requisitionsChart"></canvas>
+                </div>
+            }
+        </div>
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Avaliação Média dos Prestadores De Acordo com os Serviços</h5>
+            <hr>
+            <div>
+                <form asp-action="Moderador" method="post" class="row align-items-center justify-content-center text-center mb-3">
+                    <div class="ml-3">
+                        <div class="form-group">
+                            <label class="control-label">Valor Minimo</label>
+                            <input name="min" id="min" value="@Convert.ToString(ViewBag.Min).Replace(",", ".")" type="number" min="0" max="5.00" step="0.01" class="w-auto">
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Valor Máximo</label>
+                            <input name="max" id="max" value="@Convert.ToString(ViewBag.Max).Replace(",", ".")" type="number" min="0" max="5.00" step="0.01" class="w-auto">
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group ml-5">
+                        <input type="submit" value="Filtrar" class="btn btn-normal" />
+                    </div>
+                </form>
+            </div>
+            @if (numberOfProviders > 0)
+            {
+                @if (averageEvaluationEachProvider_User.Count() > 0)
+                {
+                    <table align="center">
+                        <thead>
+                            <tr>
+                                <th>Nome&nbsp;&nbsp;&nbsp;</th>
+                                <th></th>
+                                <th>Média da Avaliação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < averageEvaluationEachProvider_User.Count(); i++)
+                            {
+                                <tr>
+                                    <td>@averageEvaluationEachProvider_User.ElementAt(i)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td></td>
+                                    <td>@averageEvaluationEachProvider_Avg.ElementAt(i)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>Não existem resultados</p>
+                }
+            }
+            else
+            {
+                <p>Não existem dados suficientes</p>
+            }
+        </div>
+        <div class="alert alert-light text-center" role="alert" style="color:black!important; border-color:black;">
+            <h5>Número de Clientes que Tiveram o seu Serviço Concluído, Cancelado ou Rejeitado</h5>
+            <hr />
+            @if (numberServiceRequisition > 0) 
+            {
+                <div class="chart-container">
+                    <canvas id="clientsChart"></canvas>
+                </div>
+            }
+            else
+            {
+                <p>Não temos ainda dados suficientes</p>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+label {
+    margin-right: 2.9em;
+    width: 3em;
+}
+
+#btn-complaint {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn-complaint a, #btn-complaint input{
+    margin-right:1em;
+}
+
+@media only screen and (max-width: 992px) {
+
+    #title h4 {
+        margin-bottom: 40px;
+        margin-top: 0px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 2.6em;
+        font-weight: 300;
+        text-align: center;
+    }
+
+    label {
+        margin-left: 0em;
+    }
+    #btn-complaint {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #btn-complaint form{
+        width:100%;
+    }
+
+    #btn-complaint input, #btn-complaint a{
+        width: 100%;
+        margin-top:1em;
+        margin-bottom: 0.3em;
+        font-size: 1.2em;
+        padding-top: .5rem !important;
+        padding-bottom: .5rem !important;
+        margin-right:0;
+    }
+
+    .col-md-6 h4 {
+        text-align: center;
+    }
+
+    #complains-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media only screen and (min-width: 361px) and (max-width: 768px) {
+    .col-md-6 {
+        display: flex;
+        justify-content: center;
+    }
+}

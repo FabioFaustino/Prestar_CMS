@@ -1,0 +1,127 @@
+﻿@model Prestar.Models.Service
+
+
+@{
+    ViewData["Title"] = Html.DisplayFor(model => model.ServiceName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<CommentAndEvaluation> comments = ViewBag.Comments;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+</head>
+
+<div class="col justify-content-center">
+    <div class="text-center mb-4" id="title">
+        <h4 class="mt-0 text-muted">@Html.DisplayFor(model => model.ServiceName)</h4>
+        <h5 class="badge badge-pill badge-secondary pl-3 pr-3 pt-1 pb-1">
+            @Html.DisplayFor(model => model.ServiceCategory.Name)
+        </h5>
+    </div>
+
+    <div id="img-description-service-details" class="mt-5">
+        <div>
+            @if (Model.Illustration != null)
+            {
+                <img id="Illustration" style="width:300px;height:300px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Illustration))">
+            }
+            else
+            {
+                <img id="Illustration" style="width:300px;height:300px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+            }
+        </div>
+        <div class="mt-2 ml-5" id="description-rating-service-details">
+            <section class="text-justify">
+                <p class="text-justify" style="white-space: pre-wrap;">@Html.DisplayFor(model => model.Description)</p>
+            </section>
+            <div class="pl-3 pr-3 pt-1 pb-1" style="background-color:#93B5C0; color:white; border-radius:10rem; width:max-content;">
+                <p class="mb-0">
+                    @ViewBag.AverageEvaluation &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 19">
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                    </svg>
+                </p>
+
+            </div>
+        </div>
+    </div>
+    <div class="photo-gallery pb-5">
+        @foreach (var item in Model.ServiceImages)
+        {
+            <div class="p-1" style="text-align:center; margin-top:2em; width:max-content; border: 1px solid #cecece; border-radius:0.4em;">
+                <a href="data:image/*;base64,@(Convert.ToBase64String(item.Image))" data-lightbox="photos"><img class="img-fluid" src="data:image/*;base64,@(Convert.ToBase64String(item.Image))"></a>
+            </div>
+        }
+    </div>
+
+
+    <div id="btn-service-details" class="mt-2">
+        @if (User.IsInRole("Prestador") && @Model.UserID.Equals(ViewData["RequisitionerID"]))
+        {
+            <a class="btn btn-normal mr-2" asp-action="Edit" asp-route-id="@Model.ServiceID">Editar</a>
+            <a class="btn btn-normal mr-2" asp-controller="ServiceRequisitions" asp-action="GetServiceRequisitions" asp-route-id="@Model.ServiceID">Ver Requisições</a>
+        }
+
+        @if (User.IsInRole("Cliente") || (User.IsInRole("Prestador") && !@Model.UserID.Equals(ViewData["RequisitionerID"])))
+        {
+            <a class="btn btn-normal mr-2" asp-controller="ServiceRequisitions" asp-action="Create" asp-route-id="@Model.ServiceID">Requisitar Serviço</a>
+            <a class="btn btn-normal mr-2" asp-controller="Complaints" asp-action="Create" asp-route-id="@Model.ServiceID">Denunciar</a>
+        }
+
+        <a class="btn btn-normal" asp-action="Index">Voltar para Serviços</a>
+    </div>
+    <div id="providerInfo-service-details" class="text-white mt-5 mb-4 p-4">
+        <h6 class="mb-4">Informações sobre o Prestador</h6>
+        <div id="name-photo-provider" class="mb-4">
+            @if (Model.User.ProfilePicture != null)
+            {
+                <img id="Illustration" style="width:40px;height:40px; object-fit:cover; border-radius: 50%;" src="data:image/*;base64,@(Convert.ToBase64String(Model.User.ProfilePicture))">
+            }
+            else
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg>
+            }
+            <p class="ml-2"> <a class="text-white" asp-controller="Services" asp-action="ProviderServices" asp-route-id="@Model.UserID">@Html.DisplayFor(model => model.User.FirstName) @Html.DisplayFor(model => model.User.LastName)</a></p>
+        </div>
+        <div id="email-phoneNumber">
+            @if (Model.User.Email != null && Model.User.ShowEmail)
+            {
+                <div id="email">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z" />
+                    </svg>
+                    <p class="ml-2">@Html.DisplayFor(model => model.User.Email)</p>
+                </div>
+            }
+
+            @if (Model.User.PhoneNumber != null && Model.User.ShowPhoneNumber)
+            {
+                <div id="phoneNumber" class="ml-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                    </svg>
+                    <p class="ml-2">@Html.DisplayFor(model => model.User.PhoneNumber)</p>
+                </div>
+            }
+
+        </div>
+    </div>
+    <hr id="line" />
+    <div id="comment-section" class="mt-4">
+
+        <div id="create-comment" class="mb-5">
+            @{ await Html.RenderPartialAsync("~/Views/CommentAndEvaluations/_CreateCommentsPartial.cshtml", new CommentAndEvaluation { ServiceID = Model.ServiceID });}
+        </div>
+        <p>NÚMERO DE COMENTÁRIOS: @ViewBag.NumberComments</p>
+        <div class="comments-list">
+            @{ await Html.RenderPartialAsync("~/Views/CommentAndEvaluations/_ServiceCommentsPartial.cshtml", comments);}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Prestar.Models.Notification>
+
+@{
+    ViewData["Title"] = "Notificações";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool notfound = ViewBag.NotFound;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Notifications.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Notificações</h4>
+</div>
+
+@if (Model.Count() == 0)
+
+{
+    <br>
+    <h3 class="text-center">Não tens notificações</h3>
+}
+else
+{
+    @if (notfound)
+    {
+        <div class="alert alert-light text-center mt-5" role="alert" style="background-color:#93b5c0; color:white!important; border-color:#93b5c0;">
+            <h5>Url já não disponível</h5>
+        </div>
+    }
+    <br />
+    <br />
+    <p>
+        <a asp-action="AllRead">Marcar Todas Como Lidas</a>
+    </p>
+    <br />
+
+    <div>
+        @foreach (var item in Model)
+        {
+            @if (!item.IsRead)
+            {
+                <div class="mb-4 pr-4 pl-4 pt-4 text-center rounded" style="background-color:#DAE1E2;">
+                    <div id="div-container-col">
+                        <div class="mb-3" id="index-notification-header">
+                            <h5>@Html.DisplayFor(modelItem => item.Subject)</h5>
+                            <div class="mt-0">
+                                <a data-toggle="tooltip" data-placement="left" title="Marcar como Lida" asp-action="UpdateGiveSight" asp-route-id="@item.NotificationID">
+                                    <img src="~/images/not.png" style="height:24px">
+                                </a>
+                                <a asp-action="ClearNotification" asp-route-id="@item.NotificationID">
+                                    <img src="~/images/cruz.png" style="height:35px">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="text-left" id="div-container-col">
+
+                            <p class="w-100 text-justify">@Html.DisplayFor(modelItem => item.Content)</p>
+                            <p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 18">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                </svg>&nbsp;<small>@Html.DisplayFor(modelItem => item.CreationDate)</small>
+                            </p>
+                        </div>
+                    </div>
+                    <a class="text-center btn btn-normal mb-4" asp-action="ViewDetails" asp-route-id="@item.NotificationID" asp-route-url="@item.Action">
+                        Ver Mais Informações
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="mb-4 pr-4 pl-4 pt-4 text-center rounded" style="border: solid 2px #DAE1E2;">
+                    <div id="div-container-col">
+                        <div class="mb-3" id="index-notification-header">
+                            <h5>@Html.DisplayFor(modelItem => item.Subject)</h5>
+                            <div class="mt-0">
+                                <a asp-action="ClearNotification" asp-route-id="@item.NotificationID">
+                                    <img src="~/images/cruz.png" style="height:35px">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="text-left" id="div-container-col">
+
+                            <p class="w-100 text-justify">@Html.DisplayFor(modelItem => item.Content)</p>
+                            <p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 18">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                </svg>&nbsp;<small>@Html.DisplayFor(modelItem => item.CreationDate)</small>
+                            </p>
+                        </div>
+                    </div>
+                    <a class="text-center btn btn-normal mb-4" asp-action="ViewDetails" asp-route-id="@item.NotificationID" asp-route-url="@item.Action">
+                        Ver Mais Informações
+                    </a>
+                </div>
+            }
+        }
+    </div>
+}

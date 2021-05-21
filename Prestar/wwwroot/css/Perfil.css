@@ -1,0 +1,449 @@
+﻿body {
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f3f5;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-left: -70px;
+    margin-top: 6em;
+}
+
+.col-md-2 {
+    margin-right: 8em;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+}
+
+#profile-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 950px;
+}
+
+#profile-pic {
+    display: flex;
+    flex-direction: column;
+}
+
+#update-profile-button, #change-email-button, #send-request-btn, #btn-change-pwd, #download {
+    padding: 7px 9px;
+    border-radius: 5px;
+    border-color: #61797d;
+    margin-top: 35px;
+}
+#delete {
+    padding: 7px 9px;
+    border-radius: 5px;
+    margin-top: 35px;
+}
+
+#update-profile-button-responsive {
+    display: none;
+}
+
+#form-div {
+    width: 60em;
+    margin-right: 4em;
+}
+
+label {
+    margin-right: 2.9em;
+    width: 3em;
+}
+#label-changeAccount{
+    width:27em;
+    margin-top:2em;
+}
+
+#Input_ProfilePicture {
+    font-size: 0.8em;
+}
+
+#line {
+    display: none;
+    margin-bottom: 30px;
+}
+
+#socialLoginList{
+    margin-top:2em;
+}
+
+#externalLogins p button {
+    margin-left: 1em;
+}
+
+#link-login-button-Facebook {
+    width: 200px;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    background-color: #3b5998;
+    border: 1px solid #3b5998;
+}
+
+#link-login-button-Google {
+    width: 200px;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    background-color: #DB4437;
+    border: 1px solid #DB4437;
+}
+
+#download {
+    margin-left: 6.4em;
+    padding: 7px 3em;
+}
+
+#delete {
+    margin-left: 6.6em;
+    padding: 8px 3.6em;
+    color:white;
+}
+#delete:hover{
+    text-decoration:none;
+}
+
+#warning-encerrar-conta {
+    margin: 3em 0em;
+}
+
+#delete-user{
+    display:flex;
+    flex-direction:column;
+}
+/***********************************************************/
+/*CONFIG*/
+#config-Notification {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+/***********************************************************/
+
+@media only screen and (min-width: 992px) and (max-width: 1338px) {
+    #profile-form {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        width: 400px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-left: 3em;
+        width: 25em;
+    }
+
+    #form-div {
+        width: 400px;
+        margin-right: 0em;
+    }
+
+    .col-md-2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+        margin-left: 10em;
+        width: inherit;
+    }
+
+    #update-profile-button {
+       margin-left:4em;
+    }
+
+    #ChangeAccount-row{
+        display:flex;
+        flex-direction:row;
+        justify-content:flex-start;
+        align-content:center;
+    }
+
+    .col-md-7 {
+        display: flex;
+        flex-direction: column;
+        margin-left: -4em;
+        width: 400px;
+    }
+        .col-md-7 h2 {
+            text-align: center;
+        }
+
+        .col-md-7 p {
+            text-align: justify;
+        }
+
+    #email-div {
+        width: 400px;
+        margin-left: -2em;
+    }
+    #change-email-button, #btn-change-pwd {
+        margin-top: 1.5em;
+        margin-left: -2em;
+        padding: 7px 9px;
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+    }
+
+    #send-request-btn {
+        margin-top: 1.5em;
+        margin-left: 0em;
+        padding: 7px 9px;
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+    }
+
+    #download-data {
+        margin-left: 6.4em;
+        margin-bottom: 3em;
+        width: 10em;
+    }
+
+    #download {
+        margin-left: 0em;
+        padding: 7px 0em;
+    }
+
+    #delete {
+        margin-left: 6.4em;
+        padding: 7px 3.2em;
+    }
+
+    #warning-encerrar-conta {
+        margin-bottom: 3em;
+    }
+
+}
+
+@media only screen and (max-width: 992px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        margin-top: 2em;
+    }
+
+    #form-div {
+        width: 400px;
+        margin-right: 0em;
+    }
+
+    #profile-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        width: 400px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-left: 3em;
+        width: 25em;
+    }
+
+    #title h4 {
+        margin-bottom: 0px;
+        margin-top: 0px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 2.6em;
+        font-weight: 300;
+        text-align: center;
+    }
+
+    #title #title-changeAccount {
+        font-size: 2.3em;
+    }
+
+    .col-md-2 {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+        padding-right:0px;
+        margin-right:-2.5em;
+        max-width: 300px;
+    }
+
+    label {
+        margin-left: 0em;
+    }
+
+    #update-profile-button {
+        display: none;
+    }
+
+    #update-profile-button-responsive {
+        display: inline-block;
+        padding: 7px 0px;
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+        width: 11em;
+        margin-left: 3em;
+    }
+
+    #profilePicture {
+        margin-left: 5.5em;
+    }
+
+    #Input_ProfilePicture {
+        width: 300px;
+        font-size: 0.9em;
+        margin-left: 2em;
+    }
+
+    a {
+        text-align: center;
+    }
+
+    #line {
+        display: inline-block;
+        margin-left: 4em;
+        width: 85%;
+        margin-bottom: 30px;
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #ccc, rgba(0, 0, 0, 0));
+    }
+
+    .col-md-7 {
+        display: flex;
+        flex-direction: column;
+        margin-left: 4em;
+        width: 350px;
+    }
+
+        .col-md-7 h2 {
+            text-align: center;
+        }
+
+        .col-md-7 p {
+            text-align: justify;
+        }
+
+    #label-changeAccount {
+        width: 21em;
+        margin-top: 2em;
+    }
+
+    #ChangeAccount-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+    }
+    #email-div{
+        width:300px;
+        margin-left:5em;
+    }
+
+    #change-email-button, #btn-change-pwd {
+        padding: 7px 0px;
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+        width: 11em;
+        margin-top: 1.5em;
+        margin-left: 5em;
+    }
+
+    #send-request-btn {
+        padding: 7px 0px;
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+        width: 11em;
+        margin-top: 1.5em;
+        margin-left: 0em;
+    }
+    #externalLogins {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 300px;
+        margin-left: 5em;
+    }
+
+    #externalLogins p button{
+        margin-top:1em;
+        margin-left:2em;
+    }
+
+    .col-md-6 h4{
+        text-align:center;
+    }
+
+    #download-data{
+        margin-left:6.4em;
+        margin-bottom:3em;
+        width:10em;
+    }
+
+    #download {
+        margin-left: 0em;
+        padding: 7px 0em;
+    }
+
+    #delete {
+        margin-left: 6.4em;
+        padding: 7px 3.2em;
+    }
+
+    #warning-encerrar-conta{
+        margin-bottom: 3em;
+    }
+
+    #delete-user{
+        display: flex;
+        flex-direction: column;
+        margin-left: 0em;
+        width: 100%;
+    }
+
+    /***********************************************************/
+    /*CONFIG*/
+    #config-Notification {
+        display: flex;
+        flex-direction: column;
+        align-items:center;
+        margin-left:3em !important;
+    }
+    #config-Notification label{
+        margin-right:0em;
+    }
+    /***********************************************************/
+}
+
+@media only screen and (min-width: 361px) and (max-width: 768px) {
+    .col-md-6 {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+   
+
+

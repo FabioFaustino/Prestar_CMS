@@ -1,0 +1,144 @@
+﻿@using Prestar.Services
+@model PaginatedList<Request>
+
+@{
+    ViewData["Title"] = "Pedidos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/UserAccess.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Pedidos</h4>
+</div>
+
+@if (Model.Count() != 0)
+{
+    <p>
+        <a asp-action="ShowPendingRequest">Pedidos Por Aprovar</a>
+    </p>
+    <div>
+        <table class="table table-striped" id="request-table">
+            <thead>
+                <tr class="text-center">
+                    <th>
+                        Tipo de Pedido
+                    </th>
+                    <th>
+                        Descrição
+                    </th>
+                    <th>
+                        Data do pedido
+                    </th>
+                    <th>
+                        Aprovado por
+                    </th>
+                    <th>
+                        Data da Resposta
+                    </th>
+                    <th>
+                        Estado do Pedido
+                    </th>
+                    <th>
+                        Motivo de rejeição
+                    </th>
+                    <th>
+                        Utilizador
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequestType)
+                        </td>
+                        <td class="text-justify">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreationDateTime)
+                        </td>
+                        <td class="text-center">
+                            @if (item.RequestHandlerID == null)
+                            {
+                                <p>---</p>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Handler.UserName);
+                            }
+                        </td>
+                        <td>
+                            @if (item.HandleDateTime.Year == 0001)
+                            {
+                                <p>---</p>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.HandleDateTime)
+                            }
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.RequestStatus)
+                        </td>
+                        <td class="text-center">
+                            @if (item.RejectionMotive == "")
+                            {
+                                <p>---</p>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.RejectionMotive)
+                            }
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Requisitioner.UserName)
+                        </td>
+                        <td>
+                            @if (item.RequestStatus == RequestStatus.Analyzing || item.RequestStatus == RequestStatus.WaitingApproval)
+                            {
+                                @if (item.RequestType == RequestType.ProvideServices)
+                                {
+                                    <a class="btn btn-outline-secondary w-100" asp-controller="UserAccess" asp-action="UserDetails" asp-route-userId="@item.Requisitioner.Id" asp-route-requestId="@item.RequestID">Perfil</a>
+                                    <a class="btn btn-outline-secondary w-100 mt-2" asp-controller="Requests" asp-action="AproveProvideServices" asp-route-idUser="@item.Requisitioner.Id" asp-route-id="@item.RequestID">Aprovar</a>
+                                    <a class="btn btn-outline-danger w-100 mt-2" asp-action="ReproveProvideServices" asp-route-id="@item.RequestID">Reprovar</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-outline-secondary w-100" asp-action="Categories" asp-route-id="@item.RequestID">Criar</a>
+                                    <a class="btn btn-outline-danger w-100 mt-2" asp-action="NotCreateCategorie" asp-route-id="@item.RequestID">Rejeitar</a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <h4 class="text-center">Não existem pedidos</h4>
+    <div id="userAccess-options" class="text-center">
+        <a class="btn btn-normal" asp-action="Index">Regressar</a>
+    </div>
+}
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-normal @prevDisabled">
+    < Anterior
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-normal @nextDisabled">
+    Próximo >
+</a>

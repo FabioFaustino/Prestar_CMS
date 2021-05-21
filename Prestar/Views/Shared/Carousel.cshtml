@@ -1,0 +1,103 @@
+﻿@{List<New> news = ViewBag.News;}
+
+<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="text-light" id="newsSlideCarousel" style="width:1110px; height:320px; background-color:#93b5c0; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                <h1 class="display-2">Notícias</h1>
+            </div>
+            <div class="carousel-caption d-md-block">
+                <h3 id="news-title">Notícias</h3>
+                <p><a style="text-align:center" class="text-white" asp-area="" asp-controller="News" asp-action="Index">Clique aqui para ver todas as notícias</a></p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            @if (news.Count > 0)
+            {
+                @if (news.ElementAt(0).Illustration != null)
+                {
+                    <img style="width:1110px; height:320px;" class="d-block w-100" id="Illustration" src="data:image/*;base64,@(Convert.ToBase64String(news.ElementAt(0).Illustration))">
+                }
+                else
+                {
+                    <img src="~/images/Baia-noite-vista-da-Avenida-Belo-Horizonte.jpg" class="d-block w-100" alt="" style="width:1110px; height:320px;">
+                }
+                <div class="carousel-caption d-md-block">
+                    <h3><a class="text-white" asp-area="" asp-controller="News" asp-action="Details" asp-route-id="@news.ElementAt(0).NewsID">@news.ElementAt(0).Title</a></h3>
+                    @if (news.ElementAt(0).SecondTitle != null)
+                    {
+                        <p>@news.ElementAt(0).SecondTitle</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <img src="~/images/Baia-noite-vista-da-Avenida-Belo-Horizonte.jpg" class="d-block w-100" alt="" style="width:1110px; height:320px;">
+            }
+        </div>
+
+        <div class="carousel-item">
+            @if (news.Count > 1)
+            {
+                @if (news.ElementAt(1).Illustration != null)
+                {
+                    <img style="width:1110px; height:320px;" class="d-block w-100" id="Illustration" src="data:image/*;base64,@(Convert.ToBase64String(news.ElementAt(1).Illustration))">
+                }
+                else
+                {
+                    <img src="~/images/Dia-das-Baías-desfile-de-veleiros.jpg" class="d-block w-100" alt="" style="width:1110px; height:320px;">
+                }
+                <div class="carousel-caption d-md-block">
+                    <h3><a class="text-white" asp-area="" asp-controller="News" asp-action="Details" asp-route-id="@news.ElementAt(1).NewsID">@news.ElementAt(1).Title</a></h3>
+                    @if (news.ElementAt(1).SecondTitle != null)
+                    {
+                        <p>@news.ElementAt(1).SecondTitle</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <img src="~/images/Dia-das-Baías-desfile-de-veleiros.jpg" class="d-block w-100" alt="" style="width:1110px; height:320px;">
+            }
+        </div>
+
+        <div class="carousel-item">
+            @if (news.Count > 2)
+            {
+                @if (news.ElementAt(2).Illustration != null)
+                {
+                    <img style="width:1110px; height:320px;" class="d-block w-100" id="Illustration" src="data:image/*;base64,@(Convert.ToBase64String(news.ElementAt(2).Illustration))">
+                }
+                else
+                {
+                    <img src="~/images/Praia_Galapos_6.jpg" class="d-block w-100" alt="" style="width:1110px; height:320px;">
+                }
+                <div class="carousel-caption d-md-block">
+                    <h3><a class="text-white" asp-area="" asp-controller="News" asp-action="Details" asp-route-id="@news.ElementAt(2).NewsID">@news.ElementAt(2).Title</a></h3>
+                    @if (news.ElementAt(2).SecondTitle != null)
+                    {
+                        <p>@news.ElementAt(2).SecondTitle</p>
+                    }
+                </div>
+            }
+            else
+            {
+                <img src="/images/Praia_Galapos_6.jpg" class="d-block w-100" alt="" style="width:1110px; height:320px;">
+            }
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>

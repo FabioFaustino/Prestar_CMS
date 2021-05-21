@@ -1,0 +1,87 @@
+﻿@using Prestar.Services
+@model PaginatedList<UserAccessViewModel>
+@{
+    ViewData["Title"] = "Gestão de Acessos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+@if (!User.IsInRole("Administrador") && !User.IsInRole("Moderador"))
+{
+    <h4>Não tem acesso a esta página!</h4>
+}
+else
+{
+    <div id="title">
+        <h4 class="text-muted">Gestão de Acessos</h4>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr class="text-center">
+                    <th>Nome</th>
+                    <th>Email</th>
+                    @*<th>Data de Criação de conta</th>*@
+                    <th>Acessos</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+
+                    <tr class="text-center">
+                        <td class="align-middle">
+                            @user.FirstName @user.LastName
+                        </td>
+                        <td class="align-middle">
+                            @user.Email
+                        </td>
+                        @*<td>
+                                @user.AccountCreationDate.Date
+                            </td>*@
+                        <td class="align-middle">@string.Join(" , ", user.Roles.ToList())</td>
+
+                        <td style="width: 27em;" class="align-middle">
+                            @if (User.IsInRole("Moderador") && (user.Roles.Contains("Moderador") && !User.IsInRole("Administrador")))
+                            {
+                                <p>Contacte um administrador</p>
+                            }
+                            else
+                            {
+
+                                if (user.LockoutEnd > DateTimeOffset.Now)
+                                {
+                                    <a class="btn btn-outline-secondary" asp-action="UserActivity" asp-route-userId="@user.Id" asp-route-complaintID="0">Desbloquear Utilizador</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-outline-secondary" asp-action="UserActivity" asp-route-userId="@user.Id" asp-route-complaintID="0">Bloquear Acesso</a>
+                                }
+                                <a class="btn btn-outline-secondary" asp-action="Manage" asp-route-userId="@user.Id">Gerir Acessos</a>
+                                @*<a class="btn btn-outline-danger" asp-action="Delete" asp-route-userId="@user.Id">Eliminar</a>*@
+                            }
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-normal @prevDisabled">
+    < Anterior
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-normal @nextDisabled">
+    Próximo >
+</a>

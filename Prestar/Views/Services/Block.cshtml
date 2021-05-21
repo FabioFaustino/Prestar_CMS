@@ -1,0 +1,101 @@
+﻿@model Prestar.Models.Service
+
+@{
+    ViewData["Title"] = "Bloquear Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+@if (!Model.IsBlocked)
+{
+    <div id="title">
+        <h4 class="mb-0 mt-0 text-muted">Bloquear Serviço</h4>
+    </div>
+
+    <h3 class="text-center">Tem a certeza que pretende Bloquear este serviço?</h3>
+}
+else
+{
+    <div id="title">
+        <h4 class="mb-0 mt-0 text-muted">Desbloquear Serviço</h4>
+    </div>
+
+    <h3 class="text-center">Tem a certeza que pretende desbloquear este serviço?</h3>
+}
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserID):
+        </dt>
+        <dd class="col-sm-10">
+            @ViewData["UserName"]
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceCategoryID):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceCategory.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ServiceName):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Illustration)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Illustration != null)
+            {
+                <img id="Illustration" style="width:350px;height:350px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Illustration))">
+            }
+            else
+            {
+                <img id="Illustration" style="width:350px;height:350px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+            }
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreationDate):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+    </dl>
+
+    <div>
+        @if (!Model.IsBlocked)
+        {
+            <form asp-action="BlockConfirmed" asp-route-id="@Model.ServiceID" asp-route-complaintID="@ViewBag.ComplaintID">
+
+                <div class="form-group">
+                    <label asp-for="BlockMotive" class="control-label"></label>
+                    <textarea cols="5" rows="6" asp-for="BlockMotive" class="form-control"></textarea>
+                    <span asp-validation-for="BlockMotive" class="text-danger"></span>
+                </div>
+                <input type="submit" value="Bloquear" class="btn btn-normal" id="btn-block"/>
+            </form>
+        }
+        else
+        {
+            <form asp-action="UnblockConfirmed" asp-route-id="@Model.ServiceID" asp-route-complaintID="@ViewBag.ComplaintID">
+                <input type="submit" value="Desbloquear" class="btn btn-normal" id="btn-block"/>
+            </form>
+        }
+
+        <a class="btn btn-normal text-center mt-4" id="btn-block" asp-controller="Complaints" asp-action="Details" asp-route-id="@ViewBag.ComplaintID">Voltar à Denuncia</a>
+    </div>
+</div>

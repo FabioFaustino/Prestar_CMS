@@ -1,0 +1,66 @@
+﻿@model Prestar.Models.ServiceRequisition
+
+@{
+    ViewData["Title"] = "Concluir Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-0 mt-0 text-muted">Deseja dar este serviço como concluído?</h4>
+</div>
+<div class="alert alert-light text-center" role="alert" style="background-color:#829598; color:white; border-color:#829598;">
+    <h4>Informações Detalhadas</h4>
+    <hr />
+    <dl>
+        <dt>
+            <strong>@Html.DisplayNameFor(model => model.Service.ServiceName)</strong>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Service.ServiceName)
+        </dd>
+        <dt>
+            <strong>Cliente</strong>
+        </dt>
+        <dd>
+            @Model.Requisitioner.FirstName @Model.Requisitioner.LastName
+        </dd>
+        <dt>
+            <strong>@Html.DisplayNameFor(model => model.AdditionalRequestInfo)</strong>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdditionalRequestInfo)
+        </dd>
+        <dt>
+            <strong>@Html.DisplayNameFor(model => model.CreationDate)</strong>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+    </dl>
+
+</div>
+<br />
+
+<div class="alert alert-light text-justify" role="alert">
+    <h4>Hoje foi alcançada a data de conclusão proposta para este serviço</h4>
+    <hr />
+    <p>
+        Ao adicionar uma data de conclusão, será relembrado quando a data chegar. Clique no botão 'Concluir', caso o serviço já
+        tenha sido concluído.<br />Clique no botão 'Não Concluir', caso ainda não tenha concluído o serviço.
+    </p>
+</div>
+
+<div id="btn-service-requisitions" class="text-center">
+    <form asp-action="ConcludeService">
+        <button type="submit" name="SubmitButton" value="Conclude" class="btn btn-normal">Concluir</button>
+        <button type="submit" name="SubmitButton" value="DoNotConclude" class="btn btn-danger">Não Concluir</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

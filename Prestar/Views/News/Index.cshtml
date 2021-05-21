@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Prestar.Models.New>
+
+@{
+    ViewData["Title"] = "Notícias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/News_Formations.css" />
+</head>
+
+<div id="title" class="mb-4">
+    <h4 class="text-muted mb-0 mt-0">Notícias</h4>
+</div>
+
+<br>
+@if (User.IsInRole("Moderador") || User.IsInRole("Administrador"))
+{
+    <p>
+        <a asp-action="Create">Criar Nova Notícia</a>
+    </p>
+    <br />
+}
+
+@if (Model.Count() == 0)
+{
+    <p style="text-align:center">Não Existem Notícias No Momento</p>
+}
+else
+{
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6 mb-4 rounded-lg" style="border-radius:3%;">
+                <div class="card">
+                    <div class="row no-gutters">
+
+                        <div class="col-sm-4">
+                            @if (item.Illustration != null)
+                            {
+                                <img id="Illustration" style="width:inherit;height:inherit;" src="data:image/*;base64,@(Convert.ToBase64String(item.Illustration))">
+                            }
+                            else
+                            {
+                                <img id="Illustration" style="width:inherit;height:inherit;" src="~/images/Images-rafiki.png">
+                            }
+                        </div>
+
+                        <div class="col-sm-8 text-justify">
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                <p class="card-text" id="second-title-news">@Html.DisplayFor(modelItem => item.SecondTitle)</p>
+                                <p class="card-text" id="news-description">@item.Description</p>
+                                <p class="card-text" id="news-writer"><small class="text-muted">Escritor: @item.Writter.FirstName @item.Writter.LastName</small></p>
+                                <a id="seeService" class="btn-normal" asp-action="Details" asp-route-id="@item.NewsID">Ver Notícia</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

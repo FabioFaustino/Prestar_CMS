@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Prestar.Models.ServiceRequisition>
+
+@{
+    ViewData["Title"] = "Requisição do Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-0 text-muted">Requisições do Serviço</h4>
+    <h4 class="mt-0 mb-0 text-muted">@ViewBag.ServiceName</h4>
+</div>
+<br />
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>Estado do Pedido </p>
+        @Html.DropDownList("status", new SelectList(ViewBag.Status))
+        <input class="btn btn-normal" type="submit" value="Pesquisar" />
+    }
+</div>
+<br />
+<div id="myServices-container">
+    <div id="myServicesRequisitions" class="text-center mt-4 w-100">
+        @foreach (var item in Model)
+        {
+            <div class="alert alert-light h-100 pl-4 pr-4 card" role="alert">
+                <h4 class="text-center">@Html.DisplayFor(modelItem => item.Service.ServiceName)</h4>
+                <hr />
+                <div id="requisitionCard-body">
+                    <dl class="text-center" id="requisition-info">
+                        <dt>
+                            Cliente
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(modelItem => item.Requisitioner.FirstName) @Html.DisplayFor(modelItem => item.Requisitioner.LastName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ServiceRequisitionStatus)
+                        </dt>
+                        @if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Pending)
+                        {
+                            <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(234, 155, 26);">
+                                @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                            </dd>
+                        }
+                        else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Accepted)
+                        {
+                            <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(54, 162, 235);">
+                                @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                            </dd>
+                        }
+                        else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Cancelled)
+                        {
+                            <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(204, 0, 0);">
+                                @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                            </dd>
+                        }
+                        else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Rejected)
+                        {
+                            <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(255, 205, 86);">
+                                @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                            </dd>
+                        }
+                        else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Concluded)
+                        {
+                            <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(122, 184, 80);">
+                                @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                            </dd>
+                        }
+                        <dt>
+                            @Html.DisplayNameFor(modelItem => item.CreationDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(modelItem => item.CreationDate)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(modelItem => item.LastUpdatedTime)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(modelItem => item.LastUpdatedTime)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="row text-center justify-content-center pl-4 pr-4" id="btn-myServicesRequisitions">
+                    <a class="btn btn-normal mr-2" asp-action="Details" asp-route-id="@item.ServiceRequisitionID">Detalhes</a>
+
+                    @if (!(item.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Cancelled) || item.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Concluded) || item.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Rejected)))
+                    {
+                        <a class="btn btn-normal mr-2" asp-action="Edit" asp-route-id="@item.ServiceRequisitionID">Editar</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ServiceRequisitionID">Cancelar</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

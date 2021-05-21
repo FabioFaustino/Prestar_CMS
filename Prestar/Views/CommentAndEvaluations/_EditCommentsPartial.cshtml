@@ -1,0 +1,51 @@
+﻿@model Prestar.Models.CommentAndEvaluation
+
+@{
+
+}
+<head>
+    <link rel="stylesheet" href="~/css/Comments.css" />
+</head>
+
+
+<div class="text-center" id="write-comment-edit">
+    <h4 class="mb-3 text-center">Altere o seu comentário ou avaliação!</h4>
+
+    <form asp-area="" asp-controller="CommentAndEvaluations" asp-action="Edit" asp-route-id="@Model.CommentAndEvaluationID">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="ServiceID" class="form-control" value="@Model.ServiceID" type="hidden" />
+        <input asp-for="CommentAndEvaluationID" class="form-control" value="@Model.CommentAndEvaluationID" type="hidden" />
+        <input asp-for="UserCommentingID" class="form-control" value="@Model.UserCommentingID" type="hidden" />
+        <input asp-for="CreationDate" class="form-control" value="@Model.CreationDate" type="hidden" />
+
+        <div id="form-div-edit">
+            <div class="form-group col-md-12 ml-0">
+                <textarea asp-for="Comment" rows="3" cols="6" class="form-control" asp-items="@Model.Comment"> </textarea>
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center" id="rating-edit-div">
+                <label asp-for="Evaluation" class="control-label"></label>
+                <fieldset class="rating-edit" id="rating-edit">
+                    <input asp-for="Evaluation" type="radio" id="star5-edit" value="5"  /><label class="full" for="star5-edit" title="5 estrelas"></label>
+                    <input asp-for="Evaluation" type="radio" id="star4-edit" value="4"  /><label class="full" for="star4-edit" title="4 estrelas"></label>
+                    <input asp-for="Evaluation" type="radio" id="star3-edit" value="3" /><label class="full" for="star3-edit" title="3 estrelas"></label>
+                    <input asp-for="Evaluation" type="radio" id="star2-edit" value="2" /><label class="full" for="star2-edit" title="2 estrelas"></label>
+                    <input asp-for="Evaluation" type="radio" id="star1-edit" value="1"  /><label class="full" for="star1-edit" title="1 estrelas"></label>
+                </fieldset>
+                <span asp-validation-for="Evaluation" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <input type="submit" value="Submeter alterações" class="btn btn-normal" id="btn-comment-edit" />
+    </form>
+
+</div>
+
+
+
+@section Scripts {
+ 
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

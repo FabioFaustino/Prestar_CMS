@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Prestar.Models.Formation>
+
+@{
+    ViewData["Title"] = "Formações";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/News_Formations.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Formações</h4>
+</div>
+
+@if (User.IsInRole("Moderador") || User.IsInRole("Administrador"))
+{
+    <p>
+        <a asp-action="Create"><br>Criar Nova Formação</a>
+    </p>
+}
+
+@if (Model.Count() > 0)
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            @if (DateTime.Now >= item.Date)
+            {
+                <div class="col-sm-6 mb-4 rounded-lg" style="border-radius:3%;">
+                    <div class="card h-100" id="formationOver">
+                        <div class="row no-gutters">
+
+                            <div class="col-sm-4">
+                                @if (item.Illustration != null)
+                                {
+                                    <img id="Illustration" style="width:inherit;height:inherit;" src="data:image/*;base64,@(Convert.ToBase64String(item.Illustration))">
+                                }
+                                else
+                                {
+                                    <img id="Illustration" style="width:inherit;height:inherit;" src="~/images/Images-rafiki.png">
+                                }
+                            </div>
+
+                            <div class="col-sm-8 text-justify">
+                                <div class="card-body">
+                                    <h6 class="card-title mb-4">@Html.DisplayFor(modelItem => item.Title)</h6>
+                                    <div id="formation-date-hour">
+                                        <p class="card-text" id="formation-info"><small class="text-muted">📅 Data: @item.Date.ToString("dd/MMM/yyyy")</small></p>
+                                        <p class="card-text ml-3" id="formation-info"><small class="text-muted">⏰ Hora: @item.Date.ToString("hh:mm")</small></p>
+                                    </div>
+                                    <p class="card-text" id="formation-info"><small class="text-muted">⌛ Duração: @item.DurationMinutes m</small></p>
+                                    <p class="card-text" id="formation-info"><small class="text-muted">📍 Local: @item.Local</small></p>
+                                    <p class="card-text" id="formation-info"><small class="text-muted">Responsável: @item.Responsible.FirstName @item.Responsible.LastName</small></p>
+                                    <div class="alert alert-danger w-75 text-center" role="alert" id="formationOver-div">
+                                        <p class="mb-0">Formação Terminada</p>
+                                    </div>
+                                    <a id="seeService" class="btn btn-normal" asp-action="Details" asp-route-id="@item.FormationID">Ver Mais</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-6 mb-4 rounded-lg" style="border-radius:3%;">
+                    <div class="card h-100">
+                        <div class="row no-gutters">
+
+                            <div class="col-sm-4">
+                                @if (item.Illustration != null)
+                                {
+                                    <img id="Illustration" style="width:inherit;height:inherit;" src="data:image/*;base64,@(Convert.ToBase64String(item.Illustration))">
+                                }
+                                else
+                                {
+                                    <img id="Illustration" style="width:inherit;height:inherit;" src="~/images/Images-rafiki.png">
+                                }
+                            </div>
+
+                            <div class="col-sm-8 text-justify">
+                                <div class="card-body">
+                                    <h6 class="card-title mb-4">@Html.DisplayFor(modelItem => item.Title)</h6>
+                                    <div id="formation-date-hour">
+                                        <p class="card-text" id="formation-info"><small class="text-muted">📅 Data: @item.Date.ToString("dd/MMM/yyyy")</small></p>
+                                        <p class="card-text ml-3" id="formation-info"><small class="text-muted">⏰ Hora: @item.Date.ToString("hh:mm")</small></p>
+                                    </div>
+                                    <p class="card-text" id="formation-info"><small class="text-muted">⌛ Duração: @item.DurationMinutes m</small></p>
+                                    <p class="card-text" id="formation-info"><small class="text-muted">📍 Local: @item.Local</small></p>
+                                    <p class="card-text" id="formation-info"><small class="text-muted">Responsável: @item.Responsible.FirstName @item.Responsible.LastName</small></p>
+                                    <a id="seeService" class="btn btn-normal" asp-action="Details" asp-route-id="@item.FormationID">Ver Mais</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+else
+{
+    <h4 style="text-align:center"><br>Não existem ainda formações agendadas</h4>
+}

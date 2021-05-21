@@ -1,0 +1,149 @@
+﻿@model Prestar.Models.ServiceRequisition
+
+@{
+    ViewData["Title"] = "Requisição";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-3 mt-0 text-muted">Requisição do Serviço</h4>
+    <h2 class="mt-0 mb-0 text-muted">@Model.Service.ServiceName</h2>
+</div>
+<br />
+<div class="alert alert-info text-center" role="alert" style="background-color:#829598; color:white; border-color:#829598;">
+    @if (Model.ServiceRequisitionStatus == ServiceRequisitionStatus.Pending)
+    {
+        <h4>Este Pedido de Requisição do Serviço Aguarda a Sua Aprovação</h4>
+    }
+    else
+    {
+        <h4>Este Serviço Aguarda Conclusão</h4>
+    }
+</div>
+
+<hr />
+<dl class="row">
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.AdditionalRequestInfo):
+    </dt>
+    <dd class="col-sm-7 text-justify">
+        @Html.DisplayFor(model => model.AdditionalRequestInfo)
+    </dd>
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.CreationDate):
+    </dt>
+    <dd class="col-sm-7">
+        @Html.DisplayFor(model => model.CreationDate)
+    </dd>
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.ConclusionDate):
+    </dt>
+    <dd class="col-sm-7">
+        @Html.DisplayFor(model => model.ConclusionDate)
+    </dd>
+    <dt class="col-sm-3">
+        Cliente:
+    </dt>
+    <dd class="col-sm-7">
+        @Model.Requisitioner.FirstName @Model.Requisitioner.LastName<br />
+    </dd>
+</dl>
+
+<br />
+@if (Model.ServiceRequisitionStatus == ServiceRequisitionStatus.Pending)
+{
+    <div>
+        <form asp-action="Edit">
+            <div>
+                <div class="alert alert-light" role="alert">
+                    <h4>Opções Avançadas (Opcional)</h4>
+                    <p>Nesta secção, pode adicionar informações extra ao pedido de requisição, como uma data prevista para a conclusão do serviço, caso aceite o pedido.</p>
+                    <hr />
+                    <p class="mb-0 text-justify">
+                        Sugerimos que adicione uma data em que o serviço requisitado já tenha sido concluído, pois após essa data, ao consultar um pedido de requisição detalhadamente,
+                        será relembrado se pretende concluir o serviço. Esta data poderá ser editada, após o pedido ser aceite.
+                    </p>
+                    <hr />
+                    @if (Model.ConclusionDate != null)
+                    {
+                        <p>A data conclusão já está definida como: @Model.ConclusionDate <br />Se não pretende alterar a data então não selecione o campo a baixo</p>
+                    }
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="ConclusionDate" class="control-label"></label>
+                        <input name="ConclusionDate" asp-for="ConclusionDate" class="form-control" />
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <span class="text-danger">@ViewBag.ErrorMessage</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="alert alert-danger" role="alert">
+                <h1>Atenção!</h1>
+                <hr />
+                <p class="mb-0">Rejeitar um pedido de serviço, poderá ser prejudicial para a sua reputação, enquanto Prestador.</p>
+            </div>
+            <br />
+            <div class="text-center" id="btn-service-requisitions">
+                <button type="submit" name="SubmitButton" value="Approve" class="btn btn-normal">Aceitar Pedido</button>
+                <button type="submit" name="SubmitButton" value="Unapprove" class="btn btn-danger">Rejeitar Pedido</button>
+                <button type="submit" name="SubmitButton" value="Cancel" class="btn btn-normal">Voltar Atrás</button>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <form asp-action="Edit">
+            <div>
+                <div class="alert alert-light" role="alert">
+                    <h4>Opções Avançadas (Opcional)</h4>
+                    <p>Nesta secção, pode adicionar ou editar informações extra ao pedido de requisição, como uma data prevista para a conclusão do serviço.</p>
+                    <hr />
+                    <p class="mb-0 text-justify">
+                        Sugerimos que adicione uma data em que o serviço requisitado já tenha sido concluído, pois após essa data, ao consultar um pedido de requisição detalhadamente,
+                        será relembrado se pretende concluir o serviço. Enquanto o estado do pedido for 'Aceite', poderá sempre editar a data de conclusão.
+                    </p>
+                    <hr />
+                    @if (Model.ConclusionDate != null)
+                    {
+                        <p><b>A data conclusão já está definida como: @Model.ConclusionDate.ToString().Split(" ")[0] </b><br />Se não pretende alterar a data então não selecione o campo a baixo</p>
+                    }
+                    <hr />
+                    <div class="form-group">
+                        <label asp-for="ConclusionDate" class="control-label"></label>
+                        <input name="ConclusionDate" asp-for="ConclusionDate" class="form-control" />
+                        @if (ViewBag.ErrorMessage != null)
+                        {
+                            <span class="text-danger">@ViewBag.ErrorMessage</span>
+                        }
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="alert alert-danger" role="alert">
+                <h1>Atenção!</h1>
+                <hr />
+                <p class="mb-0">Concluir uma requição de serviço sem que este tenha sido concretizado, poderá ser prejudicial para a sua reputação, enquanto Prestador.</p>
+                <p class="mb-0">Cancelar uma requição de serviço, poderá ser prejudicial para a sua reputação, enquanto Prestador.</p>
+            </div>
+            <br />
+            <div class="text-center" id="btn-service-requisitions">
+                <button type="submit" name="SubmitButton" value="EditConclusionDate" class="btn btn-normal">Guardar Alterações</button>
+                <button type="submit" name="SubmitButton" value="Conclude" class="btn btn-normal">Concluir Serviço</button>
+                <button type="submit" name="SubmitButton" value="CancelService" class="btn btn-danger">Cancelar Serviço</button>
+                <button type="submit" name="SubmitButton" value="Cancel" class="btn btn-normal">Voltar Atrás</button>
+            </div>
+        </form>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

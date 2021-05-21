@@ -1,0 +1,84 @@
+﻿@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+<ul class="navbar-nav">
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @*  COnfirmação de email e perfil com icone no menu
+
+            @if (UserManager.GetUserAsync(User).Result.EmailConfirmed == false)
+            {
+                <li class="nav-item" style="align-self: center;">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Email" title="Confirmar Conta" ToolTip="Confirmar Conta!">
+                        <svg class="bi bi-alert-triangle text-success" width="32" height="32" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            ...
+                        </svg>
+                    </a>
+                </li>
+            }
+            else if (UserManager.GetUserAsync(User).Result.FirstName == null || UserManager.GetUserAsync(User).Result.PhoneNumber == null)
+            {
+                <li class="nav-item" style="align-self: center;">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Email" title="Preencha os dados de perfil!" ToolTip="Preencha os dados de perfil!">
+                        <img style="width:30px;height:30px; object-fit:cover; border-radius:30px" src="~/images/alertIcon.png"
+                             data-toggle="tooltip" data-original-title="Confirmar conta">
+                    </a>
+                </li>
+            }*@
+        @if (UserManager.GetUserAsync(User).Result.ReceiveNotifications)
+        {
+            <li class="nav-item" style="align-self: center;display:flex; justify-items:center;">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Notifications" asp-action="Index" asp-route-error="False" title="Notificações" ToolTip="Notificações">
+                    @if (ViewBag.HasNotificationToRead == 0)
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" fill="#4d6064" class="bi bi-bell" viewBox="0 0 16 16">
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                        </svg>
+                    }
+                    else
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" fill="#4d6064" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z" />
+                        </svg>
+                    }
+
+                </a>
+            </li>
+        }
+        //&nbsp;
+        <li class="nav-item" style="align-self: center;">
+            @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+            {
+                <img style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
+            }
+            else
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#4d6064" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                </svg>
+            }
+        </li>
+
+        <li class="nav-item" style="align-self: center;">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Gerir perfil" ToolTip="Gerir o Perfil">Olá @UserManager.GetUserAsync(User).Result.FirstName! </a>
+        </li>
+
+        <li class="nav-item" style="align-self: center;">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Sair</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item" style="align-self: center;">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Registar</a>
+        </li>
+        <li class="nav-item" style="align-self: center;">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Entrar</a>
+        </li>
+    }
+</ul>

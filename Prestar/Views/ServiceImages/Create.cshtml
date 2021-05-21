@@ -1,0 +1,60 @@
+﻿@model Prestar.Models.ServiceImage
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var allowedImages = ViewBag.MaxImages - ViewBag.CurrentImages;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-0 text-muted">Adicionar Fotografias ao Serviço @ViewBag.ServiceName</h4>
+</div>
+
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-8">
+        <div class="alert alert-light text-center" role="alert">
+            <p>Aqui pode adicionar fotografias à galeria do seu serviço.</p>
+            <p>Pode selecionar um ou mais ficheiros para adicionar.</p>
+            <p>De momento, o limite de ficheiros por serviço é @ViewBag.MaxImages.</p>
+            @if (allowedImages == 0)
+            {
+                <p>O Número máximo de imagens na galeria foi atinjido.</p>
+            }
+            else if (allowedImages == 1)
+            {
+                <p>Pode adicionar @allowedImages imagem.</p>
+            }
+            else
+            {
+                <p>Pode adicionar @allowedImages imagens.</p>
+            }
+        </div>
+
+        <form enctype="multipart/form-data" method="post" asp-controller="ServiceImages" asp-action="Create">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="ServiceID" class="form-control" value="@ViewBag.ServiceID" type="hidden" />
+
+            <div class="form-group text-center">
+                <img id="Image" style="width:300px;height:300px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="Image"
+                       class="form-control"
+                       style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;background-color:#f3f3f5;"
+                       onchange="document.getElementById('Image').src = window.URL.createObjectURL(this.files[0])"
+                       multiple />
+                
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Adicionar" class="btn btn-normal" id="btn-service" />
+                <a class="btn btn-normal" id="btn-service" asp-action="Index" asp-route-id="@ViewBag.ServiceID">Voltar Atrás</a>
+            </div>
+        </form>
+    </div>
+</div>
+

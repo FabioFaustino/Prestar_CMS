@@ -1,0 +1,86 @@
+﻿@model Prestar.Models.Formation
+
+@{
+    ViewData["Title"] = "Editar Formação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/News_Formations.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Editar Formação</h4>
+</div>
+
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-8">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FormationID" />
+            <input type="hidden" asp-for="ResponsibleID" />
+            <input type="hidden" asp-for="NumberOfRegistrations" />
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" cols="5" rows="6" class="form-control" style="white-space: pre-wrap;">@Model.Content</textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Illustration" style="width: 100%;"></label>
+                @if (Model.Illustration != null)
+                {
+                    <img id="IllustrationF" style="height:350px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Illustration))">
+                }
+                else
+                {
+                    <img id="IllustrationF" style="height:350px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                }
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="Illustration"
+                       class="form-control"
+                       style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;background-color:#f3f3f5;"
+                       onchange="document.getElementById('IllustrationF').src = window.URL.createObjectURL(this.files[0])" />
+                <span asp-validation-for="Illustration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DurationMinutes" class="control-label"></label>
+                <input min=0 asp-for="DurationMinutes" class="form-control" />
+                <span asp-validation-for="DurationMinutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Local" class="control-label"></label>
+                <input asp-for="Local" class="form-control" />
+                <span asp-validation-for="Local" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MaxEnrollment" class="control-label"></label>
+                <input min=0 asp-for="MaxEnrollment" class="form-control" />
+                <span asp-validation-for="MaxEnrollment" class="text-danger"></span>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Guardar Alterações" class="btn btn-normal" id="btn-formation" />
+                <button class="btn btn-normal" id="btn-formation" asp-action="Index">Voltar para Formações</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+<br />
+

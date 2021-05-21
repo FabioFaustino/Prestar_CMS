@@ -1,0 +1,100 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <UserSecretsId>aspnet-Prestar-B6E069AA-43FD-4050-88CE-ED23E2200576</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/4b02a298-8730-49c5-8c01-c1560bea0cc8/resourceGroups/prestar-resources/providers/microsoft.insights/components/prestar</ApplicationInsightsResourceId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\NewFolder\**" />
+    <Content Remove="wwwroot\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\NewFolder\**" />
+    <None Remove="wwwroot\NewFolder\**" />
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230001353_CustomUserData.cs" />
+    <Compile Remove="Data\Migrations\20201230001353_CustomUserData.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230162312_CustomUser.cs" />
+    <Compile Remove="Data\Migrations\20201230162312_CustomUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230162538_CustomUser.cs" />
+    <Compile Remove="Data\Migrations\20201230162538_CustomUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230163332_damn.cs" />
+    <Compile Remove="Data\Migrations\20201230163332_damn.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230170131_whyNoMigrationsWork.cs" />
+    <Compile Remove="Data\Migrations\20201230170131_whyNoMigrationsWork.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230171715_seraqueedesta.cs" />
+    <Compile Remove="Data\Migrations\20201230171715_seraqueedesta.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201230172304_CustomUserData.cs" />
+    <Compile Remove="Data\Migrations\20201230172304_CustomUserData.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201231182816_ProfilePictures.cs" />
+    <Compile Remove="Data\Migrations\20201231182816_ProfilePictures.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210101221344_ManageRoles.cs" />
+    <Compile Remove="Data\Migrations\20210101221344_ManageRoles.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210102171902_tentativa.cs" />
+    <Compile Remove="Data\Migrations\20210102171902_tentativa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210102212048_LoginTrack.cs" />
+    <Compile Remove="Data\Migrations\20210102212048_LoginTrack.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210102221630_hotfix1.cs" />
+    <Compile Remove="Data\Migrations\20210102221630_hotfix1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210103034231_despair.cs" />
+    <Compile Remove="Data\Migrations\20210103034231_despair.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210103043613_IntAutoIncrementUserIDForDelete.cs" />
+    <Compile Remove="Data\Migrations\20210103043613_IntAutoIncrementUserIDForDelete.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210103214802_Requests.cs" />
+    <Compile Remove="Data\Migrations\20210103214802_Requests.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210105160556_Request.cs" />
+    <Compile Remove="Data\Migrations\20210105160556_Request.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210127022930_dummy.cs" />
+    <Compile Remove="Data\Migrations\20210127022930_dummy.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\Account\Manage\ChangeTypeOfAccount.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.0.2" />
+    <PackageReference Include="Azure.Identity" Version="1.3.0" />
+    <PackageReference Include="bootstrap" Version="4.6.0" />
+    <PackageReference Include="EntityFrameworkCore.Triggers" Version="1.2.3" />
+    <PackageReference Include="MailKit" Version="2.10.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="moq" Version="4.16.1" />
+    <PackageReference Include="ServiceStack.Interfaces" Version="5.10.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Areas\Identity\Pages\Account\Manage\ChangeTypeOfAccount.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Properties\ServiceDependencies\prestar - Web Deploy\" />
+  </ItemGroup>
+
+
+ 
+
+</Project>

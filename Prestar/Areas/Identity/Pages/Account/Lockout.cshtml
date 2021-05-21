@@ -1,0 +1,14 @@
+﻿@page
+@model LockoutModel
+@inject UserManager<User> _userManager
+
+@{
+    ViewData["Title"] = "Acesso Bloqueado!";
+    var lockoutReason = TempData["LockoutReason"];
+    var lockOutDays = TempData["LockoutDays"];
+}
+
+<header>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">A sua conta foi bloqueada durante <b> @lockOutDays dias</b> pelo seguinte motivo: <br /> <b> @lockoutReason</b></p>
+</header>

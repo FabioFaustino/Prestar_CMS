@@ -1,0 +1,36 @@
+﻿body {
+}
+#cards {
+    display: grid !important;
+    gap: 30px !important;
+    grid-template-columns: repeat(2, auto);
+}
+
+#cards .alert{
+    width:540px;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    /*height: auto;*/
+    width: 19vw;
+}
+
+
+@media only screen and (max-width: 992px) {
+    #cards {
+        display: grid !important;
+        gap: 30px !important;
+        grid-template-columns: repeat(1, auto);
+    }
+    .chart-container {
+        position: relative;
+        margin: auto;
+        /*height: auto;*/
+        width: 290px !important;
+    }
+    #cards .alert {
+        width: auto;
+    }
+}

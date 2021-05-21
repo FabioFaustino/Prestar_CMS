@@ -1,0 +1,92 @@
+﻿@model Prestar.Models.Gamification
+
+@{
+    ViewData["Title"] = "Gamification";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<User> users = ViewBag.Users;
+    
+}
+<head>
+    <link rel="stylesheet" href="~/css/Gamification.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Gamificação</h4>
+</div>
+
+<div class="alert alert-light text-center" role="alert" style="background-color:#829598; color:white; border-color:#829598;">
+    <p>
+        A gamificação pode ser utilizada como uma forma de incentivar os utilizadores a usar esta plataforma.
+    </p>
+    <p>
+        Cada vez que um prestador de serviços terminar um serviço, receber um comentário ou avaliação, receberá pontos.
+    </p>
+    <p>
+        Esses pontos podem depois servir para criar um ranking, ou ser usados como incentivo para receber alguma bonificação!
+    </p>
+    <hr />
+    <p class="text-justify">
+        Para definir quantos pontos o prestador recebe por ação, será necessário criar uma configuração. Estas configurações terão o número de pontos que vale um comentário, uma avaliação e uma conclusão de um serviço, e cada uma destas configurações terá o seu nome.
+        Para escolher a configuração que quer, pode ativar atráves de uma lista de configurações, e no momento em que a ativa, a que estiver anteriormente ativa é desativada.
+        Por exemplo, quando um comentário é criado, vai buscar a configuração ativa, e se existir, atribuímos os pontos definidos naquela configuração ao prestador. O mesmo acontece para as outras ações.
+        Quando um comentário é apagado, os pontos que esse comentário deu, são retirados.
+    </p>
+</div>
+<br />
+
+@if (Model == null)
+{
+    <p>Não existe nenhuma configuração, para poder utilizar esta componente, por favor crie uma configuração!</p>
+    <a class="btn btn-normal" asp-action="Create">Criar Nova Configuração</a>
+}
+else
+{
+    if (!Model.IsActive)
+    {
+        <p>Não existe nenhuma configuração ativa, por favor, escolha uma configuração</p>
+    }
+
+    <h3 class="mb-3">Opções:</h3>
+    <div id="gamification-options">
+        <a class="btn btn-normal" asp-action="Create">Criar Nova Configuração</a>
+        <a class="btn btn-normal" asp-action="Configurations">Escolher Configuração</a>
+        <a class="btn btn-normal" asp-action="Details" asp-route-id="@Model.GamificationID">Detalhes de Configuração Atual</a>
+        <a class="btn btn-normal" asp-action="Edit" asp-route-id="@Model.GamificationID">Editar Configuração</a>
+    </div>
+
+    <br />
+    <hr id="line"/>
+    <br />
+    <div id="userRanking">
+        <h4 class="mb-3">Ranking de utilizadores</h4>
+        <div id="userRankingTable">
+            <table class="table table-responsive">
+                <thead class="text-center">
+                    <tr>
+                        <th>
+                            Utilizador
+                        </th>
+                        <th>&nbsp;</th>
+                        <th>
+                            Pontos
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">                   
+                        @foreach (var user in users)
+                        {
+                            <tr>
+                                <td>
+                                    @user.UserName
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    @user.TotalPoints
+                                </td>
+                            </tr>
+                        }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

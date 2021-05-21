@@ -1,0 +1,37 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Dados Pessoais";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Perfil.css" />
+</head>
+
+<div id="title">
+    <h4>Encerrar Conta</h4>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <partial name="_ManageNav" />
+    </div>
+    <hr id="line"/>
+    <div class="col-md-7" id="encerrar-conta-div">
+        <p>A sua conta contém dados fornecidos por si. Esta página permite descarregar ou apagar esses dados.</p>
+        <form id="download-data" asp-page="DownloadPersonalData" method="post" class="form-group">
+            <button id="download" class="btn-normal" type="submit">Download</button>
+        </form>
+        <p id="warning-encerrar-conta">
+            <strong>Desativar a conta. Esta ação é irreversivel.</strong>
+        </p>
+        <p>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Desativar Conta</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

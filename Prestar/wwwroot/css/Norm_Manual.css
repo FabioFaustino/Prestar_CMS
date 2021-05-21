@@ -1,0 +1,39 @@
+﻿body {
+}
+
+#norm-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media only screen and (max-width: 992px) {
+    #btn-manual, #btn-norm, #btn-privacy, #btn-terms-conditions, #btn-AboutUs {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #btn-manual button, #btn-manual a, #btn-manual input,
+        #btn-norm a, #btn-norm button, #btn-norm input, #btn-privacy button,
+        #btn-privacy input, #btn-terms-conditions input, #btn-terms-conditions a
+        #btn-AboutUs input, #btn-AboutUs a {
+            margin-top: 0.7em;
+            font-size: 1.2em;
+            padding-top: .5rem !important;
+            padding-bottom: .5rem !important;
+            width: 100%;
+        }
+
+    #line {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 30px;
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #ccc, rgba(0, 0, 0, 0));
+    }
+
+    #contacts h5{
+        font-size:1em;
+    }
+}

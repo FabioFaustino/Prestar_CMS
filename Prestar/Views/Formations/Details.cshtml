@@ -1,0 +1,86 @@
+﻿@model Prestar.Models.Formation
+
+@{
+    ViewData["Title"] = "Detalhes da Formação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<head>
+    <link rel="stylesheet" href="~/css/News_Formations.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">@Model.Title</h4>
+</div>
+
+<div id="formation-content">
+    <section class="text-justify">
+        <p class="text-justify" style="white-space: pre-wrap;">@Html.DisplayFor(model => model.Content)</p>
+    </section>
+    <div>
+        @if (Model.Illustration != null)
+        {
+            <img id="Illustration" style="width:350px;height:350px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Illustration))">
+        }
+    </div>
+</div>
+<div class="mt-5">
+    <p>📅 Data: @Model.Date.ToString("dd/MMM/yyyy")</p>
+    <p>⏰ Hora: @Model.Date.ToString("hh:mm")</p>
+    <p>⌛ Duração: @Model.DurationMinutes m</p>
+    <p>📍 Local: @Model.Local</p>
+    <br />
+    <p>@Html.DisplayNameFor(model => model.NumberOfRegistrations): @Html.DisplayFor(model => model.NumberOfRegistrations) /  @Html.DisplayFor(model => model.MaxEnrollment) pessoas</p>
+    <p>Responsável: @Model.Responsible.FirstName @Model.Responsible.LastName | Email: @Model.Responsible.Email</p>
+</div>
+
+@if (DateTime.Now >= Model.Date)
+{
+    <div class="alert alert-danger" role="alert">
+        Formação Já Terminou
+    </div><br />
+}
+
+@if (User.IsInRole("Moderador") || User.IsInRole("Administrador"))
+{
+    <div>
+        <a class="btn btn-normal" id="btn-formation" asp-action="Participants" asp-route-id="@Model.FormationID">Ver Parcipantes</a>
+        @if (ViewBag.CanAlter)
+        {
+            <a class="btn btn-normal" id="btn-formation" asp-action="Edit" asp-route-id="@Model.FormationID">Editar Formação</a>
+            if (Model.NumberOfRegistrations == 0)
+            {
+                <form style="display:inline" asp-action="Delete" asp-route-id="@Model.FormationID" method="post">
+                    <button class="btn btn-danger" id="btn-formation" type="submit" onclick="return confirm('Tens a certeza que queres cancelar a formação @Model.Title .\nEsta formação será excluída definitivamente')">Cancelar Formação</button>
+                </form>
+            }
+            else
+            {
+                <button class="btn btn-danger" id="btn-formation" type="submit" onclick="return alert('Não pode cancelar formação quando já existem inscrições.')">Cancelar Formação</button>
+            }
+        }
+    </div>
+}
+else if(DateTime.Now < Model.Date)
+{
+    <div class="text-center mt-5">
+        @if (ViewBag.CanRegister)
+        {
+            <div class="alert alert-light text-center mt-5" role="alert" style="background-color:#93b5c0; color:white!important; border-color:#93b5c0;">
+                @if (Model.NumberOfRegistrations < Model.MaxEnrollment)
+                {
+                    <h3><a class="text-white" asp-action="Enrollment" asp-route-id="@Model.FormationID">Inscreve-te Aqui!</a></h3>
+                }
+                else
+                {
+                    <button class="btn btn-danger" id="btn-formation-enroll" type="submit" onclick="return alert('Máximo de Inscrições Atingido')">Inscreve-te Aqui!</button>
+                }
+            </div>
+        }
+        else
+        {
+            <a class="btn btn-danger" id="btn-formation" asp-action="RemoveEnrollment" asp-route-id="@Model.FormationID">Cancelar Inscrição</a>
+        }
+    </div>
+}
+<a class="btn btn-normal mt-5" id="btn-formation" asp-action="Index">Voltar Atrás</a>

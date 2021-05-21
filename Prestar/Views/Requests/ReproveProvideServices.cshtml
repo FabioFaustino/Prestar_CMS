@@ -1,0 +1,86 @@
+﻿@model Prestar.Models.Request
+
+@{
+    ViewData["Title"] = "Reprovar Pedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/UserAccess.css" />
+</head>
+
+<div class="alert alert-danger" role="alert">
+    @if (Model.RequestType == RequestType.ProvideServices)
+    {
+        <h4>@ViewData["Title"]</h4>
+    }
+    else if (Model.RequestType == RequestType.AddCategory)
+    {
+        <h4>Reprovar Pedido para Adicionar Categoria</h4>
+    }
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.RequestType):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.RequestType)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Description):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CreationDateTime):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreationDateTime)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.RequestStatus):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.RequestStatus)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Requisitioner):
+        </dt>
+        <dd class="col-sm-9">
+            @{string name = Model.Requisitioner.FirstName + " "; }
+            @if (!Model.Requisitioner.LastName.Equals("default"))
+            {
+                name += Model.Requisitioner.LastName;
+            }
+
+            @Html.DisplayFor(modelItem => name)
+        </dd>
+    </dl>
+    <form id="reject-form" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @if (Model.RequestType == RequestType.AddCategory)
+        {
+            <div class="form-group" id="userAccess-options">
+                <label asp-for="RejectionMotive">Qual o motivo para não criar esta categoria?</label>
+                <textarea placeholder="Porque já temos uma categoria parecia." required asp-for="RejectionMotive" cols="5" row="5" class="form-control"></textarea>
+                <span asp-for="RejectionMotive" class="text-danger"></span>
+                <button asp-action="NotCreateCategorie" type="submit" class="btn btn-danger mb-0">Rejeitar Pedido</button>
+            </div>
+            
+        }
+        else
+        {
+            <div class="form-group" id="userAccess-options">
+                <label asp-for="RejectionMotive">Qual o motivo para não aceitar o cliente como prestador de serviço?</label>
+                <textarea placeholder="A justificação que foi apresentada não está de acordo com a política do site" required asp-for="RejectionMotive" cols="5" rows="5" class="form-control"></textarea>
+                <span asp-for="RejectionMotive" class="text-danger"></span>
+                <br />
+                <button type="submit" class="btn btn-danger mb-0">Rejeitar Pedido</button>
+            </div>
+        }
+    </form>
+</div>
+
+<div id="userAccess-options">
+    <a class="btn btn-normal" asp-action="Index">Regressar</a>
+</div>

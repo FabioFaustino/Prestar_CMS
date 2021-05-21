@@ -1,0 +1,101 @@
+﻿@model Prestar.Models.UserManual
+
+@{
+    ViewData["Title"] = "Manual de Utilização";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    Dictionary<string, UserManual> userManuals = ViewBag.UserManuals;
+    List<Section> sections = ViewBag.Sections;
+
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Norm_Manual.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Manual de Utilização</h4>
+</div>
+
+<div>
+    @if (User.IsInRole("Administrador"))
+    {
+        @if (userManuals.Keys.Count() < 4)
+        {
+            <form asp-action="Create" method="get">
+                <button type="submit" class="btn btn-normal">Criar Manual de Utilizador</button>
+            </form>
+        }
+        else
+        {
+            <button class="btn btn-normal" type="submit" onclick="return alert('Não pode criar mais manuais de utilização. Já tem um por role.')">Criar Manual de Utilizador</button>
+        }
+        <br />
+    }
+
+
+    @if (userManuals.Keys.Count() > 0)
+    {
+        <div class="row mt-5">
+            <div class="col-md-2 text-center">
+                <ul class="nav nav-pills flex-column">
+                    @foreach (string item in userManuals.Keys)
+                    {
+                        if (Model.UserManualID == userManuals[item].UserManualID)
+                        {
+                            <li class="nav-item"><a class="nav-link active" asp-action="Details" asp-route-id="@userManuals[item].UserManualID">@item</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-action="Details" asp-route-id="@userManuals[item].UserManualID">@item</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+            <hr id="line"/>
+            <div class="col-md-9">
+                @if (Model != null)
+                {
+                    if (sections.Count() == 0)
+                    {
+                        <p>Ainda não existe informação</p>
+                    }
+                    else
+                    {
+                        @foreach (Section sec in sections)
+                        {
+                            <section>
+                                <h3>@sec.Title</h3>
+                                <p class="text-justify" style="white-space: pre-wrap;">@sec.Content</p>
+                                @if (sec.Illustration != null)
+                                {
+                                    <img id="Illustration" style="width:350px;height:350px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(sec.Illustration))">
+                                }
+                                <hr />
+                                <br />
+                            </section>
+                        }
+                    }
+                    <small>Última Atualização: @Model.LastUpdate</small>
+                    <small>Feita por: @Model.User.FirstName @Model.User.LastName</small>
+                    <br>
+                    if (User.IsInRole("Administrador"))
+                    {
+                        <div class="mt-4" id="btn-manual">
+                            <a class="btn btn-normal" asp-action="Edit" asp-route-id="@Model.UserManualID">Editar Manual de Utilizador</a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3 class="text-center">Ainda não foram definidos manuais de utilização</h3>
+    }
+</div>
+
+<br />
+<br />

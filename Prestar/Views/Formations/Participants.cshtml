@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Prestar.Models.Enrollment>
+@{
+    ViewData["Title"] = "Participantes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/News_Formations.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted text-left">Participantes</h4>
+</div>
+<div style="display:flex; flex-direction:row; align-items:center;">
+    <table class="table table-responsive">
+        <thead>
+            <tr class="text-center">
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Registered.FirstName @item.Registered.LastName</td>
+                    <td>@item.Registered.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

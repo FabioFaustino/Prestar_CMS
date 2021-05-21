@@ -1,0 +1,88 @@
+﻿@page
+@model IndexModel
+@inject UserManager<User> _userManager
+
+@{
+    ViewData["Title"] = "Perfil";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+    var user = _userManager.GetUserAsync(User).Result;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Perfil.css" />
+</head>
+
+<div id="title">
+    <h4>@ViewData["Title"]</h4>
+</div>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-md-2">
+        <partial name="_ManageNav" />
+    </div>
+    <hr id="line"/>
+    <div class="col-md-6">
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+            <div id="form-div">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.UserName" style="width:20em"></label>
+                    <input asp-for="Input.UserName" class="form-control" />
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.FirstName" style="width:20em">Primeiro Nome:</label>
+                    <input asp-for="Input.FirstName" class="form-control" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.LastName" style="width:20em">Último Nome:</label>
+                    <input asp-for="Input.LastName" class="form-control" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.Birthdate" style="width:20em">Data de Nascimento:</label>
+                    <input asp-for="Input.Birthdate" class="form-control" type="date"/>
+                    <span asp-validation-for="Input.Birthdate" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.ZipCode" style="width:12em">Código Postal:</label>
+                    <input asp-for="Input.ZipCode" class="form-control" />
+                    <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.PhoneNumber" style="width:12em">Nº de Telefone:</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <button id="update-profile-button" type="submit" class="btn-normal">Guardar Alterações</button>
+            </div>
+            <div class="form-group" id="profile-pic">
+                @*<label asp-for="Input.ProfilePicture" style="width: 100%;"></label>*@
+                @if (Model.Input.ProfilePicture != null)
+                {
+                    <img id="profilePicture" style="width:200px;height:200px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Input.ProfilePicture))">
+                }
+                else
+                {
+                    <img id="profilePicture" style="width:200px;height:200px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                }
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="Input.ProfilePicture"
+                       class="form-control"
+                       style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;background-color:#f3f3f5;"
+                       onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
+                <span asp-validation-for="Input.ProfilePicture" class="text-danger"></span>
+            </div>
+            <button id="update-profile-button-responsive" type="submit" class="btn-normal">Guardar Alterações</button>
+        </form>
+    </div>
+
+</div>
+
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }

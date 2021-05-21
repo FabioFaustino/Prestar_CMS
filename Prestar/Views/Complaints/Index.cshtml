@@ -1,0 +1,94 @@
+﻿@using Prestar.Services
+@model PaginatedList<Complaint>
+
+@{
+    ViewData["Title"] = "Denúncias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Complaitscss.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Denúncias</h4>
+</div>
+
+<div>
+    <table class="table table-striped" id="complains-table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    Data de Criação
+                </th>
+                <th>
+                    Tipo de Denúncia
+                </th>
+                <th>
+                    Motivo
+                </th>
+                <th>
+                    Denunciante
+                </th>
+                <th>
+                    Denunciado
+                </th>
+                <th>
+                    Resolvido?
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationDate)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ComplaintType)
+                    </td>
+                    <td class="text-justify">
+                        @Html.DisplayFor(modelItem => item.Reason)
+                    </td>
+                    <td class="text-center">
+                        @ViewBag.Userscomplaining[item.UserComplaining.Id]
+                    </td>
+                    <td class="text-center">
+                        @ViewBag.ComplaintTargetUsers[item.ComplaintTargetUser.Id]
+                    </td>
+                    <td class="text-center">
+                        @if (item.IsSolved)
+                        {
+                            <p>Sim</p>
+                        }
+                        else
+                        {
+                            <p>Não</p>
+                        }
+
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-secondary w-100" asp-action="Details" asp-route-id="@item.ComplaintID">Detalhes</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-normal @prevDisabled">
+    < Anterior
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-normal @nextDisabled">
+    Próximo >
+</a>

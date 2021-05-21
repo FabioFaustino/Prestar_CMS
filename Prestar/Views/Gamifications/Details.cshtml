@@ -1,0 +1,54 @@
+﻿@model Prestar.Models.Gamification
+
+@{
+    ViewData["Title"] = "Configuração Atual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Gamification.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted mt-0" id="title-details">Detalhes da Configuração Atual</h4>
+    
+</div>
+<div class="alert alert-light text-center" role="alert" style="background-color:#829598; color:white; border-color:#829598;">
+    <h3>@Model.GamificationName</h3>
+</div>
+
+<div class="alert alert-light text-center" role="alert">
+    <h5>Estes são os detalhes da configuração das recompensas atuais</h5>
+    <hr />
+    <dl class="col">
+        <dt>
+            @Html.DisplayNameFor(model => model.GamificationName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GamificationName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PointsPerComment)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PointsPerComment)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PointsPerEvaluation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PointsPerEvaluation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PointsPerService)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PointsPerService)
+        </dd>
+
+    </dl>
+</div>
+<div class="text-center mt-4" id="gamification-options">
+    <a asp-action="Edit" asp-route-id="@Model.GamificationID" class="btn btn-normal">Editar</a>
+    <a asp-action="Index" class="btn btn-normal">Voltar</a>
+</div>

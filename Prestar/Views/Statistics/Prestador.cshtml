@@ -1,0 +1,325 @@
+﻿
+@{
+    ViewData["Title"] = "Estatisticas - Prestador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int[] numberOfClients = ViewBag.NumberOfClients;
+    int[] numberOfServices = ViewBag.NumberOfServices;
+    int[] numberOfServicesCancelled = ViewBag.NumberOfServicesCancelled;
+    int totalPointsUser = ViewBag.TotalPointsUser;
+    Dictionary<string, Dictionary<int, int>> positiveNegativeEvaluations = ViewBag.PositiveNegativeEvaluations;
+    int sumPositive = ViewBag.PositiveSum;
+    int sumNegative = ViewBag.NegativeSum;
+}
+<head>
+    <link rel="stylesheet" href="~/css/Statistics.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        window.addEventListener("load", function (event) {
+            //Serviços
+            const dataService = {
+                labels: [
+                    'Serviço Cancelado',
+                    'Serviço Concluido',
+                    'Serviço Rejeitado',
+                    'Serviço Pendente',
+                    'Serviço Aceite',
+                ],
+                datasets: [{
+                    label: 'Número de Serviços',
+                    data: [@numberOfServices.ElementAt(0), @numberOfServices.ElementAt(1), @numberOfServices.ElementAt(2), @numberOfServices.ElementAt(3), @numberOfServices.ElementAt(4)],
+                    backgroundColor: [
+                        'rgb(204, 0, 0)',
+                        'rgb(122, 184, 80)',
+                        'rgb(255, 205, 86)',
+                        'rgb(234, 155, 26)',
+                        'rgb(54, 162, 235)'
+                        
+                    ],
+                    color:'#ffffff',
+                    hoverOffset: 4
+                }]
+            };
+            const configService = {
+                type: 'doughnut',
+                data: dataService,
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var serviceChart = new Chart(
+                document.getElementById('serviceChart'),
+                configService
+            );
+
+            //Clientes com Serviços
+            const dataCliente = {
+                labels: [
+                    'Há 30 Dias',
+                    'Há 15 Dias',
+                    'Há 7 Dias',
+                    'Há 3 Dias',
+                    'Há 1 Dia'
+                ],
+                datasets: [{
+                    label: 'Número de Clientes',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [@numberOfClients.ElementAt(4), @numberOfClients.ElementAt(3), @numberOfClients.ElementAt(2), @numberOfClients.ElementAt(1),
+                        @numberOfClients.ElementAt(0)],
+                }]
+            };
+            const configCliente = {
+                type: 'line',
+                data: dataCliente,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {
+                                color: '#ffffff'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var clienteChart = new Chart(
+                document.getElementById('clientChart'),
+                configCliente
+            );
+
+            //Serviços Cancelados
+            const dataServices = {
+                labels: [
+                    'Há 30 Dias',
+                    'Há 15 Dias',
+                    'Há 7 Dias',
+                    'Há 3 Dias',
+                    'Há 1 Dia'
+                ],
+                datasets: [{
+                    label: 'Número de Serviços',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [@numberOfServicesCancelled.ElementAt(4), @numberOfServicesCancelled.ElementAt(3), @numberOfServicesCancelled.ElementAt(2), @numberOfServicesCancelled.ElementAt(1),
+                        @numberOfServicesCancelled.ElementAt(0)],
+                }]
+            };
+            const configServices = {
+                type: 'line',
+                data: dataServices,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {
+                                color: '#ffffff'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 13
+                                }
+                            },
+                            grid: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var servicesChart = new Chart(
+                document.getElementById('cancelledChart'),
+                configServices
+            );
+
+            //Avaliações
+            const dataAvaliations = {
+                labels: [
+                    'Número de Avaliação Negativas',
+                    'Número de Avaliação Positivas',
+                ],
+                datasets: [{
+                    label: 'Número de Serviços',
+                    data: [@sumNegative, @sumPositive],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+            const configEval = {
+                type: 'doughnut',
+                data: dataAvaliations,
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 15
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            var evalChart = new Chart(
+                document.getElementById('evalChart'),
+                configEval
+            );
+        });
+    </script>
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Estatísticas</h4>
+</div>
+
+<div id="cards">
+    <div class="alert alert-light text-center" role="alert" style="background-color: #9fafc1; color: white !important; border-color: #9fafc1;">
+        <h5>Número de Serviços Prestados</h5>
+        <hr class="text-dark" />
+        @if (numberOfServices[0] == 0 && numberOfServices[1] == 0 && numberOfServices[2] == 0 && numberOfServices[3] == 0 && numberOfServices[4] == 0)
+        {
+            <p>Não temos ainda resultados</p>
+        }
+        else
+        {
+            <div class="chart-container">
+                <canvas id="serviceChart"></canvas>
+            </div>
+        }
+    </div>
+    <div class="alert alert-light text-center" role="alert" style="background-color: #9fafc1; color: white !important; border-color: #9fafc1;">
+        <h5>Número de Clientes que já Usufruíram dos seus Serviços</h5>
+        <hr class="text-dark" />
+        @if (numberOfClients[0] == 0 && numberOfClients[1] == 0 && numberOfClients[2] == 0 && numberOfClients[3] == 0 && numberOfClients[4] == 0)
+        {
+            <p>Não temos ainda resultados</p>
+        }
+        else
+        {
+            <div class="chart-container">
+                <canvas id="clientChart"></canvas>
+            </div>
+        }
+    </div>
+    <div class="alert alert-light text-center" role="alert" style="background-color: #9fafc1; color: white !important; border-color: #9fafc1;">
+        <h5>Total de Pontos Acumulados</h5>
+        <hr class="text-dark" />
+        <div class="col">
+            <h2>@totalPointsUser</h2>
+            <small>Pontos</small>
+        </div>
+    </div>
+    <div class="alert alert-light text-center" role="alert" style="background-color: #9fafc1; color: white !important; border-color: #9fafc1;">
+        <h5>Número de Serviços Cancelados pelo Cliente</h5>
+        <hr class="text-dark" />
+        @if (numberOfServicesCancelled[0] == 0 && numberOfServicesCancelled[1] == 0 && numberOfServicesCancelled[2] == 0
+          && numberOfServicesCancelled[3] == 0 && numberOfServicesCancelled[4] == 0)
+        {
+            <p>Não temos ainda resultados</p>
+        }
+        else
+        {
+            <div class="chart-container">
+                <canvas id="cancelledChart"></canvas>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="alert alert-light text-center mt-3" role="alert" style="background-color: #9fafc1; color: white !important; border-color: #9fafc1;">
+    <h5>Avaliações Positivas e Negativas</h5>
+    <hr class="text-dark" />
+    @if (positiveNegativeEvaluations.Count() > 0)
+    {
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th>Nome do Serviço</th>
+                    <th>&nbsp;</th>
+                    <th>Número de Avaliação Negativas (&lt; 3)</th>
+                    <th>&nbsp;</th>
+                    <th>Número de Avaliação Positivas (&ge; 3)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (KeyValuePair<string, Dictionary<int, int>> pair in positiveNegativeEvaluations)
+                {
+                    <tr>
+                        <td>@pair.Key</td>
+                        <td>&nbsp;</td>
+                        <td>@pair.Value.ElementAt(0).Key</td>
+                        <td>&nbsp;</td>
+                        <td>@pair.Value.ElementAt(0).Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <div class="chart-container">
+            <canvas id="evalChart"></canvas>
+        </div>
+    }
+    else
+    {
+        <p>Não existem resultados</p>
+    }
+</div>
+

@@ -1,0 +1,73 @@
+﻿@page
+
+@model ChangeTypeAccountModel
+@{
+    ViewData["Title"] = "Alterar o Tipo de Conta";
+    ViewData["ActivePage"] = ManageNavPages.ChangeTypeOfAccount;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Perfil.css" />
+</head>
+
+<div id="title">
+    <h4 id="title-changeAccount">@ViewData["Title"]</h4>
+</div>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row" id="ChangeAccount-row">
+    <div class="col-md-2">
+        <partial name="_ManageNav" />
+    </div>
+    <hr id="line" />
+    <div class="col-md-7">
+        @if (User.IsInRole("Cliente"))
+        {
+            <br />
+            <h2>Você é um Cliente</h2><br />
+            <p style="text-align:justify">
+                Se pretende ser um prestador de serviço escreva um pequeno comentário e
+                clique no botão abaixo para o seu pedido ser enviado para o moderador. 
+                É <b>importante que entenda a responsabilidadede</b> de se tornar um prestador,
+                irá poder passar a disponibilizar serviços nesta plataforma.<br />
+            </p>
+            <form id="change-account-type-form" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="mb-3">
+                    <label id="label-changeAccount" class="mr-0" asp-for="Input.Description">Qual é o seu plano para como prestador de serviço?</label>
+                    <a asp-area="" asp-controller="UserManuals" asp-action="Details" data-toggle="tooltip" data-placement="top" title="Ainda têm duvidas sobre o que é ser um prestador de serviço? Clique aqui para ver os manuais de utilização">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="mb-3">
+                    <textarea placeholder="Eu gostaria de ser um prestador de serviço porque moro num bairro social e arranjo esquentadores. Ajudaria-me imenso se pudesse divulgar o meu serviço." cols="5" rows="6" asp-for="Input.Description" class="form-control"></textarea>
+                   
+                </div>
+                <button id="send-request-btn" type="submit" class="btn-normal">Enviar Pedido</button>
+            </form>
+        }
+        else if (User.IsInRole("Prestador"))
+        {
+            <h2>Você é um Prestador de Serviço</h2><br />
+            <p>
+                Tem a certeza que deseja eliminar os seus serviços e passar a ser apenas um cliente? Se a sua resposta for sim, então
+                clique no botão abaixo
+            </p>
+            <form id="change-account-prestador-type-form" method="post">
+                <button id="send-request-btn" type="submit" class="btn-normal">Ser apenas Cliente</button>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>

@@ -1,0 +1,71 @@
+﻿@model Prestar.Models.UserManual
+
+@{
+    ViewData["Title"] = "Editar Manual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{List<Section> sections = ViewBag.Sections;}
+
+<head>
+    <link rel="stylesheet" href="~/css/Norm_Manual.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Editar Manual de @Model.Role</h4>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="form-group">
+            @if (sections.Count() > 0)
+            {
+                @foreach (Section sec in sections)
+                {
+                    <div class="mt-4">
+                        <h4>@sec.Title</h4>
+                        <p class="text-justify" style="white-space: pre-wrap;">@sec.Content</p>
+                        @if (sec.Illustration != null)
+                        {
+                            <img id="Illustration" style="width:350px;height:350px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(sec.Illustration))">
+                        }
+                        <br />
+                        <div>
+                            <form style="display:inline" asp-controller="Sections" asp-action="Edit" asp-route-id="@sec.SectionID" method="get">
+                                <button class="btn btn-normal">Editar Secção</button>
+                            </form>
+                            <form style="display:inline" asp-controller="Sections" asp-action="Delete" asp-route-id="@sec.SectionID" method="post">
+                                <button class="btn btn-danger" type="submit" onclick="return confirm('Tens a certeza que queres eliminar a Secção @sec.Title')">Eliminar Secção</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+            <br /><br />
+            <div id="btn-manual">
+                <form style="display:inline" asp-action="Details" asp-route-id="@Model.UserManualID" method="get">
+                    <button type="submit" class="btn btn-normal">Voltar para os Manuais</button>
+                </form>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <form style="display:inline" asp-controller="Sections" asp-action="Create" asp-route-id="@Model.UserManualID" method="get">
+                        <button class="btn btn-normal">Criar Secção</button>
+                    </form>
+                    @if (sections.Count() < 1)
+                    {
+                        <form style="display:inline" asp-controller="UserManuals" asp-action="Delete" asp-route-id="@Model.UserManualID" method="post">
+                            <button class="btn btn-danger" type="submit" onclick="return confirm('Tens a certeza que queres eliminar o Manual de @Model.Role')">Eliminar Manual</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button style="display:inline" class="btn btn-danger" type="submit" onclick="return alert('Não pode eliminar manual de utilização com secções. Elimine primeiro todas as secções.')">Eliminar Manual</button>
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

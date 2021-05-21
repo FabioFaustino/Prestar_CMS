@@ -1,0 +1,93 @@
+﻿@model Prestar.Models.New
+
+@{
+    ViewData["Title"] = "Editar Notícia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/News_Formations.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Editar Notícia</h4>
+</div>
+
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-8">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="NewsID" />
+            <input type="hidden" asp-for="WriterID" />
+            <input type="hidden" asp-for="CreationDate" />
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="SecondTitle" class="control-label"></label>
+                <input asp-for="SecondTitle" class="form-control" />
+                <span asp-validation-for="SecondTitle" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" cols="5" rows="6" class="form-control" style="white-space: pre-wrap;">@Model.Description</textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Illustration" style="width: 100%;"></label>
+                @if (Model.Illustration != null)
+                {
+                    <img id="IllustrationN" style="height:350px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Illustration))">
+                }
+                else
+                {
+                    <img id="IllustrationN" style="height:350px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                }
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="Illustration"
+                       class="form-control"
+                       style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;background-color:#f3f3f5;"
+                       onchange="document.getElementById('IllustrationN').src = window.URL.createObjectURL(this.files[0])" />
+                <span asp-validation-for="Illustration" class="text-danger"></span>
+            </div>
+
+            <br />
+            <hr />
+            <div class="form-group form-check">
+                <label asp-for="Visible" style="width: 100%; display:inline;"></label>
+                <input asp-for="Visible" type="checkbox" />
+            </div>
+            <br />
+
+            <div class="form-group form-check">
+                <label asp-for="PrincipalNew" style="width: 100%; display:inline;"></label>
+                <input +
+                       asp-for="PrincipalNew" type="checkbox" />
+                <span asp-validation-for="PrincipalNew" class="text-danger"></span>
+            </div>
+            <small>Ao selecionar alguma destas opções, os utilizadores serão notificados da criação de uma nova noticia</small>
+            <hr />
+            <br />
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-normal mt-3" id="btn-news" asp-route-id="@Model.NewsID">Guardar Alterações</button>
+                <a class="btn btn-normal mt-3" id="btn-news" asp-action="Index">Voltar para Notícias</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

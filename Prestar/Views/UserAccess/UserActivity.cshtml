@@ -1,0 +1,211 @@
+﻿
+@model Prestar.Models.UserAccessViewModel
+@{
+    ViewData["Title"] = "Atividade do Utilizador";
+    var isBlocked = Model.LockoutEnd > DateTime.Now;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/UserAccess.css" />
+</head>
+
+@if (!User.IsInRole("Administrador") && !User.IsInRole("Moderador"))
+{
+    <h4>Não tem acesso a esta página!</h4>
+}
+else
+{
+    <div id="title">
+        <h4 class="text-muted">Atividade do utilizador</h4>
+    </div>
+    <div class="alert alert-light" role="alert">
+        <h2 class="text-center">Dados Pessoais</h2>
+        <hr />
+        <div class="row justify-content-center pl-5 pr-5">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UserName):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.FirstName):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LastName):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Email):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.AccountCreationDate):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.AccountCreationDate)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LastSeen):
+                   
+                </dt>
+
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastSeen)
+                </dd>
+            </dl>
+            <div>
+                @if (Model.ProfilePicture != null)
+                {
+                    <img id="Illustration" style="width:200px;height:200px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.ProfilePicture))">
+                }
+                else
+                {
+                    <img id="Illustration" style="width:200px;height:200px;" src="~/images/Images-rafiki.png">
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="alert alert-light text-center" role="alert">
+        <h2>Serviços</h2>
+        <hr />
+        <dl>
+            <dt>
+                Serviços
+            </dt>
+            <dd>
+                @ViewBag.Services
+            </dd>
+
+            <dt>
+                Serviços Prestados
+            </dt>
+            <dd>
+                @ViewBag.ServicesRequestedTo
+            </dd>
+            <dt>
+                Serviços Pedidos
+            </dt>
+            <dd>
+                @ViewBag.ServicesRequestedBy
+            </dd>
+        </dl>
+    </div>
+    <br />
+    <div class="alert alert-light text-center" role="alert">
+        <h2>Comentários e Avaliação</h2>
+        <hr />
+        <dl>
+            <dt>
+                Comentários Feitos
+            </dt>
+
+            <dd>
+                @ViewBag.CommentAndEvaluationsMade
+            </dd>
+            <dt>
+                Comentários recebidos
+            </dt>
+
+            <dd>
+                @ViewBag.CommentAndEvaluationsReceived
+            </dd>
+        </dl>
+    </div>
+    <br />
+    <div class="alert alert-light text-center" role="alert">
+        <h2>Denúncias</h2>
+        <hr />
+        <dl>
+            <dt>
+                Denúncias Feitas
+            </dt>
+            <dd>
+                @ViewBag.ComplaintsMade
+            </dd>
+            <dt>
+                Denuncias Recebidas
+            </dt>
+            <dd>
+                @ViewBag.ComplaintsReceived
+            </dd>
+        </dl>
+    </div>
+    <br />
+    <div class="rounded pt-5 pl-5 pr-5 pb-4 mb-4" style="border: solid 2px #829598;">
+        @if (!isBlocked)
+        {
+            <h3 class="mb-5 text-muted">Bloquear Utilizador</h3>
+            <form asp-controller="UserAccess" asp-action="Block">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="hidden" asp-for="@Model.UserName" />
+                <input type="hidden" asp-for="@Model.FirstName" />
+                <input type="hidden" asp-for="@Model.LastName" />
+                <input type="hidden" asp-for="@Model.Birthdate" />
+                <input type="hidden" asp-for="@Model.Email" />
+                <input type="hidden" asp-for="@Model.AccountCreationDate" />
+                <input type="hidden" asp-for="@Model.LastSeen" />
+                <input type="hidden" asp-for="@Model.ComplaintID" />
+                <div class="form-group">
+                    <label asp-for="LockoutDays" class="control-label"></label>
+                    <input placeholder="2" asp-for="LockoutDays" class="form-control" />
+                    <span asp-validation-for="LockoutDays" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BlockMotive" class="control-label"></label>
+                    <textarea cols="5" rows="6" asp-for="BlockMotive" class="form-control"></textarea>
+                    <span asp-validation-for="BlockMotive" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" id="userAccess-options">
+                    <input type="submit" value="Bloquear Utilizador" class="btn btn-normal" />
+                </div>
+            </form>
+        }
+        else
+        {
+            <h3 class="mb-5 text-muted">Desbloquear Utilizador</h3>
+            <form asp-controller="UserAccess" asp-action="Unblock">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="hidden" asp-for="@Model.UserName" />
+                <input type="hidden" asp-for="@Model.FirstName" />
+                <input type="hidden" asp-for="@Model.LastName" />
+                <input type="hidden" asp-for="@Model.Birthdate" />
+                <input type="hidden" asp-for="@Model.Email" />
+                <input type="hidden" asp-for="@Model.AccountCreationDate" />
+                <input type="hidden" asp-for="@Model.LastSeen" />
+                <input type="hidden" asp-for="@Model.ComplaintID" />
+                <input type="hidden" asp-for="@Model.LockoutDays" value="0" />
+                <input type="hidden" asp-for="@Model.BlockMotive" value="" />
+                <div class="form-group" id="userAccess-options">
+                    <input type="submit" value="Desbloquear Utilizador" class="btn btn-normal" />
+                </div>
+            </form>
+        }
+
+    </div>
+    <div class="text-center" id="userAccess-options">
+        @if (ViewBag.ComplaintID != 0)
+        {
+            <a asp-controller="Complaints" asp-action="Details" asp-route-id="@ViewBag.ComplaintID" class="btn btn-normal">Voltar para a Denuncia</a>
+            // Bloquear
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-normal">Voltar Atrás</a>
+        }
+    </div>
+
+}

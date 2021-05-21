@@ -1,0 +1,86 @@
+﻿
+@model Prestar.Models.User
+
+@{
+    ViewData["Title"] = "Perfil do Utilizador";
+   
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/UserAccess.css" />
+</head>
+
+
+    <div id="title">
+        <h4 class="text-muted">Perfil do utilizador</h4>
+    </div>
+    <div class="alert alert-light" role="alert">
+        <h2 class="text-center">Dados Pessoais</h2>
+        <hr />
+        <div class="row justify-content-center pl-5 pr-5">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UserName):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.FirstName):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LastName):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Email):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.AccountCreationDate):
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.AccountCreationDate)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LastSeen):
+               
+                </dt>
+
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastSeen)
+                </dd>
+            </dl>
+            <div>
+                @if (Model.ProfilePicture != null)
+                {
+                    <img id="Illustration" style="width:200px;height:200px;" src="data:image/*;base64,@(Convert.ToBase64String(Model.ProfilePicture))">
+                }
+                else
+                {
+                    <img id="Illustration" style="width:200px;height:200px;" src="~/images/Images-rafiki.png">
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="text-center" id="userAccess-options">
+        <a class="btn btn-normal" asp-controller="Requests" asp-action="Index">Voltar Atrás</a>
+        @if (ViewBag.RequestID != 0)
+        {
+            <a class="btn btn-normal" asp-controller="Requests" asp-action="AproveProvideServices" asp-route-idUser="@Model.Id" asp-route-id="@ViewBag.RequestID">Aprovar</a>
+            <a class="btn btn-danger" asp-controller="Requests" asp-action="ReproveProvideServices" asp-route-id="@ViewBag.RequestID">Reprovar</a>
+        }
+
+    </div>
+
+
+

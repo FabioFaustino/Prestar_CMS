@@ -1,0 +1,66 @@
+﻿body {
+}
+
+#title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    #title h2 {
+        font-size: 2.6em;
+        font-weight: 300;
+    }
+
+    #title h4 {
+        font-size: 3.6em;
+        font-weight: 300;
+        text-align: center;
+    }
+
+@media only screen and (max-width: 992px) {
+    #gamification-options {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+        #gamification-options a, #gamification-options input {
+            width: 100%;
+            margin-right: 0 !important;
+            margin-bottom: 1em;
+            font-size: 1.2em;
+            padding-top: .5rem !important;
+            padding-bottom: .5rem !important;
+        }
+
+    line {
+        display: inline-block;
+        width: 110%;
+        margin-left: -1.3em;
+        margin-bottom: 40px;
+        border: 0;
+        height: 1.5px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #b5b5b5, rgba(0, 0, 0, 0));
+    }
+
+    #userRanking table{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
+    #userRankingTable {
+        display: flex;
+        flex-direction: row; 
+        align-items:center;
+    }
+    #userRanking h4 {
+        text-align: center;
+    }
+
+    #title-details {
+        font-size: 3.1em!important;
+    }
+}

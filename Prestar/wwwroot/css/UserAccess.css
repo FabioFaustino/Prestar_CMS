@@ -1,0 +1,46 @@
+﻿body {
+}
+#title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin-bottom: 60px;
+    margin-top: 20px;*/
+}
+
+    #title h2 {
+        font-size: 2.6em;
+        font-weight: 300;
+    }
+
+    #title h4 {
+        /*margin-top: 50px;*/
+        font-size: 3.6em;
+        font-weight: 300;
+        text-align: center;
+    }
+
+@media only screen and (max-width: 992px) {
+    #userAccess-options {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+        #userAccess-options a, #userAccess-options input, #userAccess-options button {
+            width: 100%;
+            margin-right: 0 !important;
+            margin-bottom: 1em;
+            font-size: 1.2em;
+            padding-top: .5rem !important;
+            padding-bottom: .5rem !important;
+        }
+
+    #request-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

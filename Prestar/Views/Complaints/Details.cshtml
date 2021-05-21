@@ -1,0 +1,132 @@
+﻿@model Prestar.Models.Complaint
+
+@{
+    bool isService = false;
+    Service service = null;
+    ViewData["Title"] = "Detalhes da Denúncia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    User complaintTarget = ViewBag.ComplaintTarget;
+    
+    if (Model.ComplaintType.Equals(ComplaintType.ReportService))
+    {
+        isService = true;
+        service = ViewBag.ComplaintTargetService;
+    }
+   
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Complaitscss.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Detalhes da Denúncia</h4>
+</div>
+
+<div class="alert alert-light" role="alert">
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CreationDate):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ComplaintType):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ComplaintType)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Reason):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Reason)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.UserComplaining):
+        </dt>
+        <dd class="col-sm-9">
+            @ViewBag.Usercomplaining
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ComplaintTargetUser):
+        </dt>
+        <dd class="col-sm-9">
+            @ViewBag.ComplaintTargetUser
+        </dd>
+        @if (isService && service.ServiceName != null)
+        {
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.ComplaintTargetService):
+            </dt>
+            <dd class="col-sm-9">
+                @service.ServiceName
+            </dd>
+        }
+        @if (Model.IsSolved)
+        {
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.ResolvedBy):
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ResolvedBy.UserName)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Resolution):
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Resolution)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.ResolutionDate):
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ResolutionDate)
+            </dd>
+            @if (isService && service.IsBlocked)
+            {
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => service.BlockMotive):
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => service.BlockMotive)
+                </dd>
+            }
+        }
+    </dl>
+</div>
+<div class="text-center" id="btn-complaint">
+    @if (User.IsInRole("Moderador") || User.IsInRole("Administrador"))
+    {
+        if (complaintTarget.LockoutEnd > DateTimeOffset.Now)
+        {
+            <a asp-controller="UserAccess" asp-action="UserActivity" asp-route-userId="@complaintTarget.Id"
+               asp-route-complaintID="@Model.ComplaintID" class="btn btn-normal">Desbloquear Utilizador</a>
+        }
+        <a asp-controller="UserAccess" asp-action="UserActivity" asp-route-userId="@complaintTarget.Id"
+           asp-route-complaintID="@Model.ComplaintID" class="btn btn-normal">Detalhes Utilizador</a>
+
+        if (Model.ComplaintType.Equals(ComplaintType.ReportService))
+        {
+            if (!service.IsBlocked)
+            {
+                <a asp-controller="Services" asp-action="Block" asp-route-id="@service.ServiceID" asp-route-complaintID="@Model.ComplaintID"
+                   class="btn btn-danger">Bloquear Serviço</a>
+            }
+            else
+            {
+                <a asp-controller="Services" asp-action="Block" asp-route-id="@service.ServiceID" asp-route-complaintID="@Model.ComplaintID"
+                   class="btn btn-normal">Desbloquear Serviço</a>
+            }
+        }
+        @if (!Model.IsSolved)
+        {
+            <form asp-action="ResolveComplaintNoAction" asp-route-id="@Model.ComplaintID">
+                <input type="submit" value="Cancelar Denúncia" class="btn btn-normal" /> 
+            </form>
+        }
+        <a asp-action="Index" class="btn btn-normal"> Voltar Atrás</a>
+    }
+
+</div>

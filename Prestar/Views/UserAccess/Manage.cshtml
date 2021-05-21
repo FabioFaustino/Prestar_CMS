@@ -1,0 +1,51 @@
+﻿@model List<ManageUserRolesViewModel>
+@inject UserManager<User> _userManager
+@using Prestar.Models
+@{
+    ViewData["Title"] = "Adicionar/Remover Acessos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/UserAccess.css" />
+</head>
+
+<form method="post">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-muted">Gestão de Acessos</h2>
+            Adicionar/Remover acessos do utilizador:  @ViewBag.UserName.
+        </div>
+        <div class="card-body">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+            <div class="form-check m-1">
+                @if (User.IsInRole("Administrador"))
+                {
+                    <br />
+                    <input type="hidden" asp-for="@Model[i].RoleId" />
+                    <input type="hidden" asp-for="@Model[i].RoleName" />
+                    <input asp-for="@Model[i].Selected" class="form-check-input" />
+                    <label class="form-check-label" asp-for="@Model[i].Selected">@Model[i].RoleName</label>
+                }
+                else
+                {
+                    if (Model[i].RoleName != "Administrador")
+                    {
+                    <br />
+                    <input type="hidden" asp-for="@Model[i].RoleId" />
+                    <input type="hidden" asp-for="@Model[i].RoleName" />
+                    <input asp-for="@Model[i].Selected" class="form-check-input" />
+                    <label class="form-check-label" asp-for="@Model[i].Selected">@Model[i].RoleName</label>
+                    }
+                }
+            </div>
+            }
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="card-footer" id="userAccess-options">
+            <input type="submit" value="Atualizar" class="btn btn-normal" style="width:auto;" />
+            <a asp-action="Index" class="btn btn-danger" style="width:auto">Cancelar</a>
+        </div>
+    </div>
+</form>

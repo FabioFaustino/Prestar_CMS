@@ -1,0 +1,167 @@
+﻿@model Prestar.Models.ServiceRequisition
+
+@{
+    ViewData["Title"] = "Requisição";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-0 mt-0 text-muted">Detalhes da Requisição</h4>
+</div>
+<div class="alert alert-light" role="alert" style="background-color:#829598; color:white; border-color:#829598;">
+    <h4 class="text-center">Informações Detalhadas</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Cliente:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Requisitioner.FirstName) @Html.DisplayFor(model => model.Requisitioner.LastName)
+        </dd>
+        <dt class="col-sm-3">
+            Contacto do Cliente:
+        </dt>
+        @if (Model.Requisitioner.PhoneNumber != null && Model.Requisitioner.ShowPhoneNumber)
+        {
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Requisitioner.Email) | @Html.DisplayFor(model => model.Requisitioner.PhoneNumber)
+            </dd>
+        }
+        else
+        {
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Requisitioner.Email)
+            </dd>
+        }
+        <dt class="col-sm-3 ">
+            @Html.DisplayNameFor(model => model.AdditionalRequestInfo):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AdditionalRequestInfo)
+        </dd>
+        <dt class="col-sm-3 ">
+            @Html.DisplayNameFor(model => model.CreationDate):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+        <dt class="col-sm-3 ">
+            @Html.DisplayNameFor(model => model.ServiceRequisitionStatus):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ServiceRequisitionStatus)
+        </dd>
+        <dt class="col-sm-3 ">
+            @Html.DisplayNameFor(model => model.LastUpdatedTime):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.LastUpdatedTime)
+        </dd>
+        <dt class="col-sm-3 ">
+            @Html.DisplayNameFor(model => model.LastUpdatedBy):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.LastUpdatedBy)
+        </dd>
+        @if (Model.ConclusionDate != null)
+        {
+            <dt class="col-sm-3 ">
+                @Html.DisplayNameFor(model => model.ConclusionDate):
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ConclusionDate)
+            </dd>
+        }
+    </dl>
+</div>
+<div class="alert alert-light text-justify" role="alert">
+    <h4 class="text-center">Informações do Serviço</h4>
+    <hr />
+    <div class="text-center">
+        @if (Model.Service.Illustration != null)
+        {
+            <img id="Illustration" style="width:100px;height:100px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Service.Illustration))">
+        }
+        else
+        {
+            <img id="Illustration" style="width:100px;height:100px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+        }
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Service.ServiceName):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Service.ServiceName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Service.ServiceCategoryID):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Service.ServiceCategory.Name)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Service.Description):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Service.Description)
+        </dd>
+        <dt class="col-sm-3">
+            Prestador:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Service.User.FirstName) @Html.DisplayFor(model => model.Service.User.LastName)
+        </dd>
+    </dl>
+    <a class="btn btn-normal" id="btn-service" asp-controller="Services" asp-action="Details" asp-route-id="@Model.ServiceID"> Ver Página do Serviço</a>
+</div>
+<br />
+<div id="btn-service-requisitions" class="text-center">
+
+    @if (((User.IsInRole("Cliente") && Model.RequisitionerID.Equals(ViewData["UserID"])) || (User.IsInRole("Prestador") && Model.RequisitionerID.Equals(ViewData["UserID"]))) && (Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Cancelled) || Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Concluded)))
+    {
+        <a class="btn btn-normal text-white" onclick="showPopUp('@Url.Action("CreateForm", "CommentAndEvaluations", new { id = Model.ServiceID, fromRequisitions = true }, Context.Request.Scheme)')">Comentar</a>
+    }
+
+
+    @if ((User.IsInRole("Prestador") && ViewBag.ProviderID.Equals(ViewData["UserID"])) && !(Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Cancelled) || Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Concluded) || Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Rejected)))
+    {
+        <a class="btn btn-normal" asp-action="Edit" asp-route-id="@Model.ServiceRequisitionID">Editar</a>
+    }
+
+    @if (((User.IsInRole("Cliente") && Model.RequisitionerID.Equals(ViewData["UserID"])) || (User.IsInRole("Prestador") && Model.RequisitionerID.Equals(ViewData["UserID"]))) && !(Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Cancelled) || Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Concluded) || Model.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Rejected)))
+    {
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.ServiceRequisitionID">Cancelar Serviço</a>
+    }
+
+    @if (User.IsInRole("Cliente") || (User.IsInRole("Prestador") && !ViewBag.ProviderID.Equals(ViewData["UserID"])))
+    {
+        <a class="btn btn-normal" asp-action="Index">Os Meus Pedidos</a>
+        <a class="btn btn-normal" asp-controller="Complaints" asp-action="Create" asp-route-id="@Model.ServiceRequisitionID">Denunciar</a>
+    }
+
+    @if (User.IsInRole("Prestador") && ViewBag.ProviderID.Equals(ViewData["UserID"]))
+    {
+        <a class="btn btn-normal" asp-action="GetServiceRequisitions" asp-route-id="@Model.ServiceID">Ver Serviços Requisitados</a>
+        <a class="btn btn-normal" asp-controller="Complaints" asp-action="Create" asp-route-id="@Model.ServiceRequisitionID">Denunciar</a>
+    }
+
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="form-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>

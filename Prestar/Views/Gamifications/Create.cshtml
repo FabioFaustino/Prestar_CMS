@@ -1,0 +1,52 @@
+﻿@model Prestar.Models.Gamification
+
+@{
+    ViewData["Title"] = "Criar Configuração";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Gamification.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted mt-0">Criar Configuração</h4>
+</div>
+
+<div class="alert alert-light text-center" role="alert" style="background-color:#829598; color:white; border-color:#829598;">
+    <h4 class="text-center">Definir bónus por ação</h4>
+</div>
+<br />
+
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GamificationName" class="control-label">Nome da Configuração</label>
+                <input asp-for="GamificationName" class="form-control" />
+                <span asp-validation-for="GamificationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PointsPerComment" class="control-label"></label>
+                <input asp-for="PointsPerComment" class="form-control" value="0"/>
+                <span asp-validation-for="PointsPerComment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PointsPerEvaluation" class="control-label"></label>
+                <input asp-for="PointsPerEvaluation" class="form-control" value="0"/>
+                <span asp-validation-for="PointsPerEvaluation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PointsPerService" class="control-label"></label>
+                <input asp-for="PointsPerService" class="form-control" value="0"/>
+                <span asp-validation-for="PointsPerService" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-5 text-center" id="gamification-options">
+                <input type="submit" value="Criar Configuração" class="btn btn-normal" />
+                <a asp-action="Index" class="btn btn-normal">Voltar Atrás</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,50 @@
+﻿@model Prestar.Models.New
+
+@{
+    ViewData["Title"] = "Notícia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/News_Formations.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">@Model.Title</h4>
+    <h2 class="text-center text-muted">@Model.SecondTitle</h2>
+</div>
+<br />
+
+<div>
+    <p class="mb-2">Escrito Por: @Model.Writter.FirstName @Model.Writter.LastName</p>
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 17">
+            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+        </svg>&nbsp;@Html.DisplayFor(model => model.CreationDate)
+    </p>
+    <div class="text-center w-100">
+        @if (Model.Illustration != null)
+        {
+            <img id="Illustration" style="width:inherit;height:inherit;max-height:none; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(Model.Illustration))">
+        }
+    </div>
+    <section class="mb-5 mt-5 text-justify">
+        <p class="text-justify" style="white-space: pre-wrap;">@Html.DisplayFor(model => model.Description)</p>
+    </section>
+</div>
+<div id="btn-news-details">
+    <a class="btn btn-normal" asp-action="Index">Voltar para Notícias</a>
+    @if (User.IsInRole("Moderador") || User.IsInRole("Administrador"))
+    {
+        <a class="btn btn-normal" id="btn-service" asp-action="Edit" asp-route-id="@Model.NewsID">Editar Noticia</a>
+        <a class="btn btn-danger delete" id="btn-service" style="color:white;"
+           data-id="@Model.NewsID"
+           data-controller="News"
+           data-action="DeleteConfirmed"
+           data-redirect-url="@Url.Action("Index","News",null, Context.Request.Scheme)"
+           data-body-message="Tem a certeza que pretende eliminar a notícia?">
+            Eliminar Notícia
+        </a>
+    }
+</div>

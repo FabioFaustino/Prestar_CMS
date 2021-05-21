@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Prestar.Models.Gamification>
+
+@{
+    ViewData["Title"] = "Configurações";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Gamification.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted mt-0" id="title-details">Configurações</h4>
+
+</div>
+<p>
+    <a asp-action="Create">Criar Nova Configuração</a>
+</p>
+<table class="table table-responsive">
+    <thead>
+        <tr class="text-center">
+            <th>
+                @Html.DisplayNameFor(model => model.GamificationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PointsPerComment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PointsPerEvaluation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PointsPerService)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.GamificationName)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.PointsPerComment)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.PointsPerEvaluation)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.PointsPerService)
+                </td>
+                <td class="align-middle">
+                    @if (item.IsActive)
+                    {
+                        <p>Sim</p>
+                    }
+                    else
+                    {
+                        <p>Não</p>
+                    }
+                </td>
+                <td>
+                    @if (!item.IsActive)
+                    {
+                        <a class="btn btn-normal w-100" asp-action="Activate" asp-route-id="@item.GamificationID">Ativar</a>
+                    }
+                    <a class="btn btn-normal w-100 mt-2" asp-action="Edit" asp-route-id="@item.GamificationID">Editar</a>
+                    <a class="btn btn-danger w-100 mt-2" asp-action="Delete" asp-route-id="@item.GamificationID">Apagar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

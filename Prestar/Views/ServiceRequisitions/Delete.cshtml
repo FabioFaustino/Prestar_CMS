@@ -1,0 +1,99 @@
+﻿@model Prestar.Models.ServiceRequisition
+
+@{
+    ViewData["Title"] = "Cancelar Requisição";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-0 text-center text-muted">Cancelar Requisição</h4>
+</div>
+
+<h3 class="text-center">Tem a certeza que deseja cancelar este serviço?</h3>
+<br />
+<div class="alert alert-danger text-justify" role="alert">
+    <h1>Atenção!</h1>
+    <hr />
+    <p class="mb-0">Não é possível cancelar um serviço se faltar menos de 48h para a sua realização. </p>
+    @if (User.IsInRole("Cliente"))
+    {
+        <p class="mb-0">Caso cumpra com este requisito, deixamos um alerta de que, cancelar um serviço, pode prejudicar a sua reputação enquanto cliente.</p>
+    }
+    else
+    {
+        <p class="mb-0">Caso cumpra com este requisito, deixamos um alerta de que, cancelar um serviço, pode prejudicar a sua reputação enquanto prestador.</p>
+    }
+</div>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ServiceID):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Service.ServiceName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.RequisitionerID):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Requisitioner.FirstName) @Html.DisplayFor(model => model.Requisitioner.LastName)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.AdditionalRequestInfo):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.AdditionalRequestInfo)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.ServiceRequisitionStatus):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ServiceRequisitionStatus)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CreationDate):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CreationDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.LastUpdatedTime):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.LastUpdatedTime)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.LastUpdatedBy):
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.LastUpdatedBy)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" class="text-center" id="btn-service-requisitions">
+        <input type="hidden" asp-for="ServiceRequisitionID" />
+
+        @if (Model.ConclusionDate == null || (Model.ConclusionDate != null && ViewBag.IsPossibleToCancel))
+        {
+            <input type="submit" value="Cancelar" class="btn btn-danger" id="btn-service" />
+        }
+        else
+        {
+            <input type="submit" value="Cancelar" class="btn btn-danger" id="btn-service" disabled />
+        }
+
+
+        @if (User.IsInRole("Cliente") || (User.IsInRole("Prestador") && Model.RequisitionerID == ViewBag.UserId))
+        {
+            <a asp-action="Index" class="btn btn-normal" id="btn-service">Os Meus Pedidos</a>
+        }
+        else
+        {
+            <a asp-action="GetAllServiceRequisitions" class="btn btn-normal" id="btn-service">Voltar Atrás</a>
+        }
+    </form>
+</div>

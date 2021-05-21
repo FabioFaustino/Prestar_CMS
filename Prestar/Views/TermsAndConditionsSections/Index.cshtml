@@ -1,0 +1,73 @@
+﻿@using Prestar.Services
+@model PaginatedList<TermsAndConditionsSection>
+
+@{
+    ViewData["Title"] = "Termos e Condições";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Norm_Manual.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted" style="font-size:2.6em;">Termos e Condições</h4>
+</div>
+@if (User.IsInRole("Administrador"))
+{
+    <p>
+        <a asp-action="Create">Adicionar Nova Secção</a>
+    </p>
+    <br />
+}
+@if (Model.Count() > 0)
+{
+    <div>
+        @foreach (var item in Model)
+        {
+        <section>
+            <h3>@item.Title</h3>
+            <br />
+            <p class="text-justify" style="white-space: pre-wrap;">@item.Content</p>
+            <small>Última Atualização: @item.LastUpdate</small>
+            <br />
+            <small>Feita por: @item.User.FirstName @item.User.LastName</small>
+            <br />
+            <br />
+            @if (User.IsInRole("Administrador"))
+            {
+
+                <form style="display:inline" asp-controller="TermsAndConditionsSections" asp-action="Edit" asp-route-id="@item.TermsAndConditionsSectionID" method="get">
+                    <button class="btn btn-normal">Editar Secção</button>
+                </form>
+                <form style="display:inline" asp-controller="TermsAndConditionsSections" asp-action="Delete" asp-route-id="@item.TermsAndConditionsSectionID" method="post">
+                    <button class="btn btn-danger" type="submit" onclick="return confirm('Tem a certeza que pretende eliminar a secção @item.Title')">Eliminar Secção</button>
+                </form>
+                <br />
+                <br />
+            }
+            <hr />
+            <br />
+        </section>
+        }
+    </div>
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-normal @prevDisabled">
+        Anterior
+    </a>
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-normal @nextDisabled">
+        Próximo
+    </a>
+}
+else
+{
+    <h3 class="text-center">Ainda não foram definidos termos e condições</h3>
+}

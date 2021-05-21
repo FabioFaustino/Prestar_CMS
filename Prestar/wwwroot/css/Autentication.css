@@ -1,0 +1,232 @@
+﻿body {
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f3f5;
+}
+
+#title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+    margin-top: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+    #title h1 {
+        font-size: 3.6em;
+        font-weight: 300;
+    }
+
+    #title h4 {
+        font-weight: 200;
+        /*font-size:1em;*/
+    }
+
+
+    #title a, #forgot-password {
+        color: #61797d;
+    }
+
+    #title #title-forgot-pwd {
+        font-size: 2.6em;
+        font-weight: 400;
+    }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: space-between;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.col-md-4 {
+    display: flex;
+    justify-content: center;
+    align-content: space-between;
+    margin-right: 30px;
+}
+
+    .col-md-4 #form-register {
+        width: 500px;
+    }
+
+.vertical-line {
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    margin: 0 10px;
+    height: inherit;
+}
+
+/*External Login*/
+.botoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+    width: 350px;
+    font-weight: 100;
+}
+
+#normal, #btn-forgot-password {
+    width: 130px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 30px;
+}
+
+#externo-fb {
+    width: 260px;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    background-color: #3b5998;
+    border: 1px solid #3b5998;
+}
+
+#externo-google {
+    width: 260px;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
+    background-color: #DB4437;
+    border: 1px solid #DB4437;
+}
+
+hr {
+    display: none;
+    margin-bottom: 30px;
+}
+
+/*Exclusivo no Login*/
+#account {
+    margin-right: 50px;
+   /* width: 400px;*/
+}
+
+/*Exclusivo no ForgotPassword*/
+#forgot-password-container {
+    width: 400px;
+}
+/*Responsive*/
+@media only screen and (max-width: 992px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+
+    .col-md-4 {
+        display: flex;
+        justify-content: center;
+        align-content: space-between;
+        padding-left: 50px;
+        max-width: 500px;
+    }
+
+    .botoes {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        align-content: center;
+        width: 350px;
+        margin-left: 0px;
+    }
+
+    #normal {
+        width: 130px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border-radius: 30px;
+        margin-bottom: 20px;
+    }
+
+    #externo {
+        width: 250px;
+        padding: 8px;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-radius: 5px;
+    }
+
+    hr {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 30px;
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #ccc, rgba(0, 0, 0, 0));
+    }
+
+    .vertical-line {
+        display: none;
+    }
+
+    #account {
+        margin-right: 0px;
+        /*max-width: 500px;*/
+       /* width:250px;*/
+    }
+
+    #title #title-forgot-pwd {
+        font-size: 1.4em;
+        font-weight: 400;
+    }
+
+    #title #title4-forgot-pwd {
+        font-size: 1.2em;
+        font-weight: 200;
+    }
+
+    #title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0px;
+        margin-top: 20px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+        #title h1 {
+            font-size: 3.6em;
+            font-weight: 300;
+        }
+
+        #title h4 {
+            font-weight: 200;
+        }
+}
+
+@media (max-width: 768px) {
+    .botoes {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        align-content: center;
+        width: inherit;
+    }
+
+    #account {
+        /*margin-right: 0px;*/
+        /*margin-left:8.5em;*/
+        /*width: inherit;*/
+    }
+
+    #title #title-forgot-pwd {
+        font-size: 1.4em;
+        font-weight: 400;
+    }
+
+    #title #title4-forgot-pwd {
+        font-size: 1.2em;
+        font-weight: 200;
+    }
+}

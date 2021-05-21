@@ -1,0 +1,461 @@
+﻿body {
+    display: flex;
+    flex-direction: column;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.2);
+}
+
+#title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+    margin-top: 20px;
+}
+
+    #title h2 {
+        font-size: 2.6em;
+        font-weight: 300;
+    }
+
+    #title h4 {
+        margin-top: 50px;
+        font-size: 3.6em;
+        font-weight: 300;
+        text-align: center;
+    }
+
+#seeService {
+    border-radius: 5px;
+    border-color: #61797d;
+    margin-top: 35px;
+    padding: 8px 3.6em;
+    color: white;
+}
+
+    #seeService:hover {
+        text-decoration: none;
+    }
+
+#service-description, #user, #category {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*img {
+    max-height: 220px;
+    object-fit: contain;
+}*/
+
+label {
+    width: 25em;
+}
+
+#td-description {
+    width: 35ch;
+    text-align: justify;
+}
+
+#newService-OrderByRating {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#category-rating-card {
+    display: flex;
+    flex-direction: row !important;
+}
+/***************************************************************************/
+/*USER SERVICES*/
+#myServices, #myRequests, #myServicesRequisitions {
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(3, auto);
+}
+
+#services-photos {
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(4, auto);
+}
+
+#myServices-container, #services-photos-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/***************************************************************************/
+/*SERVICE DETAILS*/
+#img-description-service-details {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+}
+
+#btn-service-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#providerInfo-service-details {
+    background-color: #829598;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#name-photo-provider, #email-phoneNumber {
+    display: flex;
+    flex-direction: row;
+}
+
+    #name-photo-provider p {
+        font-size: 1.7em;
+    }
+
+#email, #phoneNumber {
+    display: flex;
+    flex-direction: row;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-gap: 0px;
+    grid-template-columns: repeat(5, auto);
+    justify-content: space-between;
+}
+
+    .photo-gallery div {
+        flex: 1 0 20%;
+    }
+
+    .photo-gallery img {
+        height: 120px;
+        width: 170px !important;
+    }
+
+/***************************************************************************/
+/*SERVICE REQUISITIONS*/
+#requisitionCard-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+/***************************************************************************/
+@media only screen and (min-width: 992px) and (max-width: 1338px) {
+    #seeService {
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+        padding: 5px 3.4em;
+        color: white;
+    }
+
+        #seeService:hover {
+            text-decoration: none;
+        }
+
+    #service-form {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        width: 400px;
+        margin-left: 20em;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-left: 3em;
+        width: 25em;
+    }
+
+    #category-rating-card {
+        display: flex;
+        flex-direction: column !important;
+    }
+    /***************************************************************************/
+    /*SERVICE REQUISITIONS AND BLOCK*/
+    #btn-myServicesRequisitions, #btn-myRequests {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #btn-myServicesRequisitions {
+        padding: 0 !important;
+    }
+
+        #btn-myServicesRequisitions a, #btn-myRequests a {
+            margin-top: 0.7em;
+            font-size: 1.1em;
+            padding-top: .5rem !important;
+            padding-bottom: .5rem !important;
+            width: 100%;
+        }
+
+        #btn-myServicesRequisitions a, #btn-myRequests a {
+            margin-right: 0 !important;
+            width: 90% !important
+        }
+
+    /***************************************************************************/
+    /*USER SERVICES*/
+    #myServices-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    /***************************************************************************/
+    /*PHOTO GALLERY*/
+    #services-photos {
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(3, auto);
+    }
+    /***************************************************************************/
+}
+
+@media only screen and (max-width: 992px) {
+    #seeService {
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+        padding: 5px 3.4em;
+        color: white;
+    }
+
+        #seeService:hover {
+            text-decoration: none;
+        }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-left: 0em;
+        width: 100%;
+    }
+
+    #td-description {
+        text-align: justify;
+    }
+
+    #title h4 {
+        margin-bottom: 0px;
+        margin-top: 0px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 2.6em;
+        font-weight: 300;
+        text-align: center;
+    }
+
+    #newService-OrderByRating {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    #category-rating-card {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    /***************************************************************************/
+    /*USER SERVICES*/
+    #myServices, #myServicesRequisitions, #services-photos {
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(2, auto);
+    }
+
+    #myServices-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    /***************************************************************************/
+    /*SERVICE DETAILS*/
+    #img-description-service-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #description-rating-service-details {
+        margin-left: 0 !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 3em;
+    }
+
+    #btn-service-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+        #btn-service-details a {
+            width: 100%;
+            margin-right: 0 !important;
+            margin-bottom: 1em;
+            font-size: 1.2em;
+            padding-top: .5rem !important;
+            padding-bottom: .5rem !important;
+        }
+
+    #img-description-service-details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%
+    }
+
+    #name-photo-provider p {
+        font-size: 1.5em;
+    }
+
+    #email-phoneNumber, #name-photo-provider {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0 !important;
+    }
+
+    #email, #phoneNumber {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0 !important;
+    }
+
+        #email p, #phoneNumber p, #name-photo-provider p {
+            margin-left: 0 !important;
+        }
+
+    #line {
+        width: 120%;
+        margin-left: -2em;
+        border: 0;
+        height: 1.5px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #ccc, rgba(0, 0, 0, 0));
+    }
+
+    .photo-gallery {
+        display: grid;
+        grid-gap: 0px;
+        grid-template-columns: repeat(3, auto);
+    }
+        .photo-gallery img {
+            height: 85px;
+            width: 85px !important;
+        }
+
+    /***************************************************************************/
+    /*SERVICE REQUISITIONS AND BLOCK*/
+    #btn-service-requisitions, #btn-categories-details,
+    #btn-myServicesRequisitions, #btn-myRequests {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #btn-myServicesRequisitions {
+        padding: 0 !important;
+    }
+
+        #btn-service-requisitions button, #btn-service-requisitions a, #btn-service,
+        #btn-block, #btn-categories, #btn-categories-details a, #btn-myServicesRequisitions a,
+        #btn-myRequests a {
+            margin-top: 0.7em;
+            font-size: 1.2em;
+            padding-top: .5rem !important;
+            padding-bottom: .5rem !important;
+            width: 100%;
+        }
+
+        #btn-myServicesRequisitions a, #btn-myRequests a {
+            font-size: 1.1em;
+            margin-right: 0 !important;
+            width: 90% !important
+        }
+
+    #myRequests {
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(1, auto);
+    }
+
+    #requisition-info {
+        font-size: 1.13em;
+    }
+    /***************************************************************************/
+    /*PHOTO GALLERY*/
+    #add-more-pics {
+        margin-top:2em;
+    }
+    /***************************************************************************/
+}
+
+@media only screen and (max-width: 768px) {
+    /*and (min-width: 360px) and*/
+    #seeService {
+        border-radius: 5px;
+        border-color: #61797d;
+        margin-top: 35px;
+        padding: 5px 2.25em;
+        color: white;
+    }
+
+        #seeService:hover {
+            text-decoration: none;
+        }
+
+    .col-md-6 {
+        display: flex;
+        justify-content: center;
+    }
+
+    /***************************************************************************/
+    /*USER SERVICES*/
+    #myServices, #myServicesRequisitions, #services-photos {
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: repeat(1, auto);
+    }
+
+    #myServices-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,132 @@
+@model IEnumerable<Prestar.Models.ServiceRequisition>
+
+@{
+    ViewData["Title"] = "Os Meus Pedidos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int requisitions = 0;
+    if (ViewBag.Requisitions != null)
+    {
+        requisitions = ViewBag.Requisitions;
+    }
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted mb-3">Os Meus Pedidos de Requisição</h4>
+</div>
+<div class="alert alert-light text-center mt-4" role="alert" style="background-color:#93b5c0; color:white!important; border-color:#93b5c0;">
+    @if (requisitions > 0)
+    {
+        if (requisitions == 1)
+        {
+            <h4 class="mb-0">Já Usufruiu de @requisitions Serviço. Estamos muito felizes 😄</h4>
+        }
+        else
+        {
+            <h4 class="mb-0">Já Usufruiu de @requisitions Serviços. Estamos muito felizes 😄</h4>
+        }
+    }
+    else
+    {
+        <h4 class="mb-0">Ainda não têm nenhum serviço concluído.</h4>
+    }
+</div>
+<br />
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>Estado do Pedido </p>
+        @Html.DropDownList("status", new SelectList(ViewBag.Status))
+        <input class="btn btn-normal" type="submit" value="Pesquisar" />
+    }
+</div>
+<br />
+<div id="myServices-container">
+    <div id="myRequests" class="text-center mt-4 w-100">
+        @foreach (var item in Model)
+        {
+            <div class="alert alert-light h-100 card" role="alert">
+                <h4 class="text-center">@Html.DisplayFor(modelItem => item.Service.ServiceName)</h4>
+                <hr />
+                <div id="requisitionCard-body">
+                    @if (item.Service.Illustration != null)
+                    {
+                        <img id="Illustration" style="width: 40%; max-width: 200px; height: auto; max-height:260px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(item.Service.Illustration))">
+                    }
+                    else
+                    {
+                        <img id="Illustration" style="width: 40%; max-width: 200px; height: auto; max-height: 260px; object-fit: scale-down" src="~/images/Images-rafiki.png">
+                    }
+                    <div class="ml-4">
+                        <dl class="text-center">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.ServiceRequisitionStatus)
+                            </dt>
+                            @if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Pending)
+                            {
+                                <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(234, 155, 26);">
+                                    @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                                </dd>
+                            }
+                            else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Accepted)
+                            {
+                                <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(54, 162, 235);">
+                                    @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                                </dd>
+                            }
+                            else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Cancelled)
+                            {
+                                <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(204, 0, 0);">
+                                    @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                                </dd>
+                            }
+                            else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Rejected)
+                            {
+                                <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(255, 205, 86);">
+                                    @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                                </dd>
+                            }
+                            else if (item.ServiceRequisitionStatus == ServiceRequisitionStatus.Concluded)
+                            {
+                                <dd class="badge badge-pill pl-3 pr-3 pt-1 pb-1 text-white" style="background-color:rgb(122, 184, 80);">
+                                    @Html.DisplayFor(modelItem => item.ServiceRequisitionStatus)
+                                </dd>
+                            }
+                            <dt>
+                                @Html.DisplayNameFor(model => model.CreationDate)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(modelItem => item.CreationDate)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.LastUpdatedTime)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(modelItem => item.LastUpdatedTime)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.LastUpdatedBy)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(modelItem => item.LastUpdatedBy)
+                            </dd>
+                        </dl>
+                    </div>
+
+                </div>
+                <div class="row text-center justify-content-center mt-3" id="btn-myRequests">
+                    <a class="btn btn-normal mr-2" asp-action="Details" asp-route-id="@item.ServiceRequisitionID">Detalhes</a>
+
+                    @if (!(item.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Cancelled) || item.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Concluded) || item.ServiceRequisitionStatus.Equals(ServiceRequisitionStatus.Rejected)))
+                    {
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ServiceRequisitionID">Cancelar</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

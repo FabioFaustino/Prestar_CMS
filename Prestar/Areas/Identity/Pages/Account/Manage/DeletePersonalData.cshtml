@@ -1,0 +1,46 @@
+﻿@page
+@model DeletePersonalDataModel
+@{
+    ViewData["Title"] = "Desativar Conta";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Perfil.css" />
+</head>
+
+<div id="title">
+    <h4>@ViewData["Title"]</h4>
+</div>
+
+<div class="alert alert-warning text-center mt-4" role="alert">
+    <p>
+        <strong>Ao desativar a conta, já não terá acesso à plataforma como utilizador registado, esta ação não pode ser revertida!</strong>
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <partial name="_ManageNav" />
+    </div>
+    <hr id="line" />
+
+    <div class="col-md-7">
+        <form id="delete-user" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            @if (Model.RequirePassword)
+            {
+                <div class="form-group" id="delete-user">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            }
+            <button class="btn btn-danger" type="submit">Desativar Conta</button>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

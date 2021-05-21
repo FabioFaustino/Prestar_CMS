@@ -1,0 +1,63 @@
+﻿@model Prestar.Models.Complaint
+
+@{
+    ViewData["Title"] = "Criar Denúncia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string clienteID = ViewBag.ClienteID;
+    string userID = ViewBag.UserID;
+    string providerID = ViewBag.ProviderID;
+}
+<head>
+    <link rel="stylesheet" href="~/css/Complaitscss.css" />
+</head>
+
+<div id="title">
+    <h4 class="text-muted">Criar uma Denúncia</h4>
+</div>
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-10">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ComplaintType" class="control-label" style="width:15em"></label>
+                @if (User.IsInRole("Cliente"))
+                {
+                    <select asp-for="ComplaintType" class="form-control">
+                        <option value="@ComplaintType.ReportServiceProvider">Denunciar Prestador de Serviço</option>
+                        <option value="@ComplaintType.ReportService">Denunciar Serviço</option>
+                    </select>
+                }
+                else if (clienteID.Equals(userID))
+                {
+                    <select asp-for="ComplaintType" class="form-control">
+                        <option value="@ComplaintType.ReportServiceProvider">Denunciar Prestador de Serviço</option>
+                        <option value="@ComplaintType.ReportService">Denunciar Serviço</option>
+                    </select>
+                }
+                else if (providerID.Equals(userID))
+                {
+                    <select asp-for="ComplaintType" class="form-control">
+                        <option value="@ComplaintType.ReportClient">Denunciar Cliente</option>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="ComplaintType" class="form-control" asp-items="Html.GetEnumSelectList<ComplaintType>()"></select>
+                }
+                <span asp-validation-for="ComplaintType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Reason" class="control-label" style="width:15em"></label>
+                <textarea cols="5" rows="7" asp-for="Reason" class="form-control"></textarea>
+                <span asp-validation-for="Reason" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center" id="btn-complaint">
+                <input type="submit" value="Denunciar" class="btn btn-normal" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

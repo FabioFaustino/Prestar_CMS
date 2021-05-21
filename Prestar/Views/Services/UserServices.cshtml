@@ -1,0 +1,95 @@
+﻿@using Prestar.Services
+@model PaginatedList<Service>
+
+@{
+    ViewData["Title"] = "Os Meus Serviços";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title" class="mb-5">
+    <h4 class="text-muted">Os Meus Serviços</h4>
+</div>
+
+<div class="mb-4" id="newService-OrderByRating">
+    <p>
+        <a asp-action="Create">Criar Novo Serviço</a>
+    </p>
+    <a class="btn btn-normal mb-0" asp-area="" asp-controller="Statistics" asp-action="Prestador">Estatísticas de Prestador</a>
+</div>
+<hr />
+<div id="myServices-container">
+    <div id="myServices" class="text-center mt-4">
+        @foreach (var item in Model)
+        {
+            <div class="col mb-4" style="max-width:417px;">
+                <div class="card h-100">
+                    @if (item.Illustration != null)
+                    {
+                        <img src="data:image/*;base64,@(Convert.ToBase64String(item.Illustration))" class="card-img-top" style=" height:200px; object-fit: cover">
+                    }
+                    else
+                    {
+                        <img src="~/images/Images-rafiki.png" class="card-img-top" style="height: 200px; object-fit: cover">
+                    }
+
+                    <div class="card-body" style="display:flex; flex-direction:column; justify-content:flex-end; align-items:center;">
+                        <h5 class="card-title">@item.ServiceName</h5>
+                        @if (item.IsBlocked)
+                        {
+                            <p class="card-text">Este serviço foi bloqueado pelo seguinte Motivo:<br /><b> @item.BlockMotive.</b></p>
+                        }
+                        else if (!item.IsActive)
+                        {
+                            <p class="card-text">Este serviço não se encontra de momento ativo</p>
+                        }
+                        else
+                        {
+                            <p class="card-text">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </p>
+                        }
+                        <p class="card-text" id="category"><small class="text-muted">Categoria: @Html.DisplayFor(modelItem => item.ServiceCategory.Name)</small></p>
+                        <p class="card-text" id="category"><small class="text-muted">Data de Criação: @Html.DisplayFor(modelItem => item.CreationDate)</small></p>
+                        <div class="w-100">
+                            <a class="btn btn-normal w-100" asp-action="Edit" asp-route-id="@item.ServiceID">Editar</a>
+                            <a class="btn btn-normal w-100 mt-2" asp-action="Details" asp-route-id="@item.ServiceID">Detalhes</a>
+                            <a class="btn btn-normal w-100 mt-2" asp-controller="ServiceImages" asp-action="Index" asp-route-id="@item.ServiceID">Galeria de Imagens</a>
+                            @if (item.IsActive)
+                            {
+                                <a class="btn btn-danger w-100 mt-2" asp-action="Deactivate" asp-route-id="@item.ServiceID">Desativar</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-normal w-100 mt-2" asp-action="Activate" asp-route-id="@item.ServiceID">Reativar</a>
+                            }
+
+                            <a class="btn btn-danger w-100 mt-2" asp-action="Delete" asp-route-id="@item.ServiceID">Apagar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+<br />
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="UserServices"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-normal @prevDisabled">
+    < Anterior
+</a>
+<a asp-action="UserServices"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-normal @nextDisabled">
+    Próximo >
+</a>

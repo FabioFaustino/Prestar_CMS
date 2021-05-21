@@ -1,0 +1,43 @@
+﻿@model Prestar.Models.UserManual
+
+@{
+    ViewData["Title"] = "Criar Manual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ List<string> rolesAvailable = ViewBag.Roles;}
+
+<div id="title">
+    <h4 class="text-muted">Criar Manual de Utilizador</h4>
+</div>
+<div class="alert alert-light" role="alert" style="background-color:#829598; color:white; border-color:#829598;">
+    <p>Deve ser tomado em conta que apenas deve existir um Manual por Roles.</p>
+    <p>Os Roles são: Administrador, Moderador, Prestador e Cliente. Se por acaso já existirem todos esses, então não será possível criar mais manuais de utilização.</p>
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Role" class="control-label"></label>
+                <select asp-for="Role" class="form-control form-control">
+                    @foreach (string role in rolesAvailable)
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="btn-manual">
+                <input type="submit" value="Criar Manual" class="btn btn-normal" />
+                <a class="btn btn-normal" asp-action="Details">Voltar para os Manuais</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

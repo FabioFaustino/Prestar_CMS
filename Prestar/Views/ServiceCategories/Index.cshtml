@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Prestar.Models.ServiceCategory>
+
+@{
+    ViewData["Title"] = "Categorias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="title">
+    <h4 class="text-muted">Categorias</h4>
+</div>
+
+<p>
+    <a asp-action="Create">Criar Categoria</a>
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Illustration)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @if (!item.IsSubcategory)
+                {
+                    <tr>
+                        <td>
+                            @if (item.Illustration != null)
+                            {
+                                <img id="Illustration" style="width:100px;height:100px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(item.Illustration))">
+                            }
+                            else
+                            {
+                                <img id="Illustration" style="width:100px;height:100px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-secondary" asp-action="Edit" asp-route-id="@item.CategoryID">Editar</a>
+                            <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@item.CategoryID">Detalhes</a>
+                            <a class="btn btn-outline-secondary" asp-action="CreateSubcategory" asp-route-id="@item.CategoryID">Criar Subcategoria</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<div id="title">
+    <h4 class="text-muted">Subcategorias</h4>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Imagem da Subcategoria
+                </th>
+                <th>
+                    Subcategoria
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @if (item.IsSubcategory)
+                {
+                    <tr>
+                        <td>
+                            @if (item.Illustration != null)
+                            {
+                                <img id="Illustration" style="width:100px;height:100px; object-fit:scale-down" src="data:image/*;base64,@(Convert.ToBase64String(item.Illustration))">
+                            }
+                            else
+                            {
+                                <img id="Illustration" style="width:100px;height:100px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @ViewBag.Subcategories[item.CategoryID]
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-secondary" asp-action="EditSubcategory" asp-route-id="@item.CategoryID">Editar</a>
+                            <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@item.CategoryID">Detalhes</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

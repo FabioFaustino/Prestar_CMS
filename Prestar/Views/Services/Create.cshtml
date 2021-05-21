@@ -1,0 +1,144 @@
+﻿@model Prestar.Models.Service
+
+@{
+    ViewData["Title"] = "Criar Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool send = ViewBag.Send;
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/About.css">
+    <link rel="stylesheet" href="~/css/Services.css" />
+</head>
+
+<div id="title">
+    <h4 class="mb-0 text-muted">Criar um Serviço</h4>
+</div>
+
+<div class="row" style="justify-content:center!important;">
+    <div class="col-md-8">
+        <form asp-action="Create" enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ServiceName" class="control-label"></label>
+                <input asp-for="ServiceName" class="form-control" />
+                <span asp-validation-for="ServiceName" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="ServiceCategoryID" class="control-label"></label>
+                <select asp-for="ServiceCategoryID" class="form-control form-control">
+                    @foreach (ServiceCategory category in ViewBag.ServiceCategories)
+                    {
+                        @if (!category.IsSubcategory)
+                        {
+                            <optgroup label="@category.Name">
+                                @if (category.ServiceCategories == null || category.ServiceCategories.Count == 0)
+                                {
+                                    <option value="@category.CategoryID">@category.Name</option>
+                                }
+                                else
+                                {
+                                    @foreach (ServiceCategory subcategory in category.ServiceCategories)
+                                    {
+                                        <option value="@subcategory.CategoryID">@subcategory.Name</option>
+                                    }
+                                }
+                            </optgroup>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="ServiceCategoryID" class="text-danger"></span>
+            </div>
+            <p>Senão encontras a tua categoria pede <a href="#pedir_categoria">aqui</a> !</p>
+
+            <br />
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea cols="5" rows="6" asp-for="Description" class="form-control" style="white-space: pre-wrap;"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <br />
+
+            <div class="form-group">
+                <label asp-for="Illustration" style="width: 100%;"></label>
+                <img id="Illustration" style="width:300px;height:300px; object-fit:scale-down" src="~/images/Images-rafiki.png">
+                <input type="file"
+                       accept=".png,.jpg,.jpeg,.gif,.tif"
+                       asp-for="Illustration"
+                       class="form-control"
+                       style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;background-color:#f3f3f5;"
+                       onchange="document.getElementById('Illustration').src = window.URL.createObjectURL(this.files[0])" />
+                <div id="pedir_categoria"></div>
+                <span asp-validation-for="Illustration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Criar Serviço" class="btn btn-normal mt-3" id="btn-service" />
+                <a class="btn btn-normal mt-3" id="btn-service" asp-action="UserServices">Regressar a Serviços</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+<br />
+<hr />
+<br />
+<div class="alert alert-light text-center mt-3 mb-5" role="alert" style="background-color:#93b5c0; color:white!important; border-color:#93b5c0;">
+    <h4 class="row ml-2 mr-2 mt-1 mb-1 justify-content-between">
+        Pedir Categoria&nbsp;&nbsp;
+        <a id="arrow-down" style='font-size:24px' class='fas' onclick="toggle_visibility('pdf', 'arrow-down', 'arrow-up');">
+            <span class="arrow-down"></span>
+        </a>
+        <a id="arrow-up" style='font-size:24px; display:none' class='fas' onclick="toggle_visibility('pdf', 'arrow-down', 'arrow-up');">
+            <span class="arrow-up"></span>
+        </a>
+    </h4>
+    <div id="pdf" style="display:none" class="mt-3">
+        <div class="alert alert-light text-justify" role="alert">
+            <form with="100%" asp-controller="Requests" asp-action="RequestCategory" method="post">
+                <div>
+                    <h6>Se nenhuma das Categorias se enquadra com o seu serviço, utilize este formulário para pedir a criação de uma nova categoria.</h6>
+                    <h6>Senão continue com a criação do seu serviço!</h6>
+                    <hr />
+                    <br />
+                    <input name="categoria" class="form-control" placeholder="Escreve aqui o nome da categoria que pretende pedir..." />
+                    @if (send)
+                    {
+                        <br />
+                        <p>Pedido foi enviado com sucesso. Por favor aguarde.</p>
+                    }
+                </div>
+                <br />
+                <button class="btn btn-normal mt-3" type="submit">Pedir Categoria</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script type="text/javascript">
+    function toggle_visibility(id1, id2, id3) {
+        var e = document.getElementById(id1); //iframe
+        var d = document.getElementById(id2); //arrow down
+        var u = document.getElementById(id3); //arrow up
+        if (d.style.display == 'block') {
+            e.style.display = 'block';
+            d.style.display = "none";
+            u.style.display = "block";
+        }
+        else {
+            e.style.display = 'none';
+            d.style.display = "block";
+            u.style.display = "none";
+        }
+    }
+</script>

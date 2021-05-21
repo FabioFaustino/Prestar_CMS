@@ -1,0 +1,39 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/Prestar",
+      "sslPort": 0
+    },
+    "iisExpress": {
+      "applicationUrl": "http://localhost:54013/",
+      "sslPort": 44305
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Authentication_Facebook_AppId": "400928241014722",
+        "Authentication_Google_ClientSecret": "UFYzNmgiapU2A4XrIXwj-92r",
+        "Authentication_Facebook_AppSecret": "58e35a6db5be8b0a51679589bd8d2fb3",
+        "Authentication_Google_ClientId": "179854523322-33tua08hb3gkmp2h5nhfjrdvpghppv2q.apps.googleusercontent.com"
+      }
+    },
+    "Prestar": {
+      "commandName": "Docker",
+      "launchBrowser": true,      
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true,
+      "useSSL": true
+      }
+    }
+}
